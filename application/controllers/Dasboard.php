@@ -3,8 +3,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dasboard extends MY_Controller {
 
-	public function index() {
+	function __construct() {
+		parent::__construct();
 
-		$this->load->view('template/adminlte', []);
+		if (!$this->session->userdata('my_auth')) {
+			redirect('app/login');
+		}
+
+	}
+
+	public function index() {
+		$page_vars = array();
+
+		$this->load->view('template/adminlte', [
+			'page_view' => 'pages/dashboard',
+			'page_tittle' => 'DASHBOARD',
+			'page_webTittle' => 'DASBOARD',
+		]);
 	}
 }
