@@ -28,7 +28,7 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-           <li class="treeview <?php if($sideBarVarClass == 'citezen')echo 'active';?>">
+       <li class="treeview <?php if($sideBarVarClass == 'citezen')echo 'active';?>">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Citezens</span>
             <span class="pull-right-container">
@@ -40,7 +40,43 @@
             <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'citezen/create')echo 'active';?>"><a href="<?= base_url().'citezen/create' ?>"><i class="fa fa-circle-o"></i> Create Citezen </a></li>
           </ul>
         </li>
-
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Summons</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> List of Summons </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Create Summons </a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Certificate</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Contributed Certificates </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Create Certificate </a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Users</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> List of Users </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Create Users </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Permission </a></li>
+          </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
