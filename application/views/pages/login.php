@@ -8,7 +8,7 @@
 &nbsp;
 </div>
 
-<div class="col-lg-2 col-lg-offset-5 col-md-4 col-md-offset-4 col-xs-12">
+<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-xs-12">
 	<div class="panel panel-default">
 	<?=form_open(current_url(), 'data-toggle="validator" role="form"')?>
 	  <div class="panel-heading">

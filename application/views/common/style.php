@@ -9,6 +9,10 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?=base_url()?>assets/dist/css/skins/_all-skins.min.css">
+  <!--  select2 css  -->
+   <link rel="stylesheet" href="<?=base_url()?>assets/others/select2.min.css">
+  <!--  datepicker css  -->
+   <link rel="stylesheet" href="<?=base_url()?>assets/others/bootstrap-datepicker.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

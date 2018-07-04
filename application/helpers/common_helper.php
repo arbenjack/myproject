@@ -19,14 +19,14 @@ function show_alerts($alert = array()) {
 		case 'info':$icon = 'info-sign';
 			break;
 		}
-
+		/*
 		echo '<script type="text/javascript">LB_Admin.showAlert = {
 			type : "' . $alert['type'] . '",
 			message : \'' . $alert['message'] . '\'
 			' . ($icon != '' ? ', icon : \'glyphicon glyphicon-' . $icon . '\'' : ',icon:""') . '
 		}</script>';
-
-		//echo '<div class="alert alert-'.$alert['type'].'">'.($icon!=''?'<span class="glyphicon glyphicon-'.$icon.'"></span>':'').'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> '.$alert['message'].'</div>';
+			*/
+		echo '<div class="alert alert-'.$alert['type'].'">'.($icon!=''?'<span class="glyphicon glyphicon-'.$icon.'"></span>':'').'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> '.$alert['message'].'</div>';
 	}
 }
 
@@ -38,4 +38,7 @@ function message($type, $message) {
 			'message' => $message,
 		]);
 	}
+
 }
+
+

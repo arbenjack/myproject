@@ -8,3 +8,11 @@
 <script src="<?=base_url()?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?=base_url()?>assets/dist/js/demo.js"></script>
+<!-- select2 -->
+<script src="<?=base_url()?>assets/others/bootstrap-datepicker.min.js"></script>
+
+<!-- date picker -->
+<script src="<?=base_url()?>assets/others/select2.min.js"></script>
+
+<!-- Main javascript -->
+<script src="<?=base_url()?>assets/main.js"></script>
