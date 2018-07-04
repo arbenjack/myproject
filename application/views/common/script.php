@@ -10,7 +10,8 @@
 <script src="<?=base_url()?>assets/dist/js/demo.js"></script>
 <!-- select2 -->
 <script src="<?=base_url()?>assets/others/bootstrap-datepicker.min.js"></script>
-
+<!-- datatable -->
+<script src="<?=base_url()?>assets/others/jquery.dataTables.min.js"></script>
 <!-- date picker -->
 <script src="<?=base_url()?>assets/others/select2.min.js"></script>
 

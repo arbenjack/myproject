@@ -8,7 +8,11 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <!-- styles -->
-
+  	<script type="text/javascript">
+  		var App = <?= json_encode(array_merge(['siteurl' => site_url()], 
+        (isset($js_vars)? $js_vars : array())
+		)); ?>;
+  	</script>
 	<?php $this->load->view('common/style');?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

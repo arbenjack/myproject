@@ -13,7 +13,10 @@
    <link rel="stylesheet" href="<?=base_url()?>assets/others/select2.min.css">
   <!--  datepicker css  -->
    <link rel="stylesheet" href="<?=base_url()?>assets/others/bootstrap-datepicker.min.css">
-
+      <!-- datatable -->
+  <link rel="stylesheet" href="<?=base_url()?>assets/others/jquery.dataTables.min.css">
+   <!-- main -->
+  <link rel="stylesheet" href="<?=base_url()?>assets/main.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>

@@ -1,4 +1,7 @@
 <?php
+function assets_url(){
+	return site_url('assets/');
+}
 
 function show_alerts($alert = array()) {
 	$ci = get_instance();

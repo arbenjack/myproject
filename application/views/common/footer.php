@@ -9,5 +9,12 @@
 
 
 <?php $this->load->view('common/script');?>
+
+    <?php 
+    if(isset($custom_js))
+        echo $custom_js;
+    ?>
+
+
 </body>
 </html>

@@ -10,4 +10,6 @@ $(document).ready(function(){
   		//allowClear: true
 	});
 
+    /** datatable */
+      $('.mydatatable').DataTable();
 });
