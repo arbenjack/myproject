@@ -40,7 +40,7 @@
             <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'citezen/create')echo 'active';?>"><a href="<?= base_url().'citezen/create' ?>"><i class="fa fa-circle-o"></i> Create Citezen </a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li class="treeview <?php if($sideBarVarClass == 'summons')echo 'active';?>">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Summons</span>
             <span class="pull-right-container">
@@ -48,8 +48,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> List of Summons </a></li>
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Create Summons </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'summons/list')echo 'active';?>"><a href="<?= base_url().'summons/list' ?>"><i class="fa fa-circle-o"></i> List of Summons </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'summons/create')echo 'active';?>"><a href="<?= base_url().'summons/create' ?>"><i class="fa fa-circle-o"></i> Create Summons </a></li>
           </ul>
         </li>
         <li class="treeview">
