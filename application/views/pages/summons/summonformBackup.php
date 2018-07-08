@@ -83,12 +83,12 @@
 
 @font-face {
 	font-family: LiberationSerif-Bold_e;
-	src: "assets/summons/fonts/LiberationSerif-Bold_e.woff" format("woff");
+	src: url("fonts/LiberationSerif-Bold_e.woff") format("woff");
 }
 
 @font-face {
 	font-family: LiberationSerif_9;
-	src: "fonts/summons/fonts/LiberationSerif_9.woff" format("woff");
+	src: url("fonts/LiberationSerif_9.woff") format("woff");
 }
 
 </style>

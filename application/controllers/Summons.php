@@ -9,7 +9,8 @@ class Summons extends MY_Controller {
         if (!$this->session->userdata('my_auth')) {
 			redirect('app/login');
 		}
-		$this->load->model('Citezen_model');
+		$this->load->model('Citezen_model')
+				->model('Summon_model');
 	}
 
 	function list(){
@@ -23,6 +24,56 @@ class Summons extends MY_Controller {
              ], $page_vars ));
 
 	}
+	 function getListSummons(){
+	 	        $columns = array( 
+                            0 =>'summon_id',
+                            1 =>'summon_date',
+                            2 =>'brgycasenum',
+                            3 =>'details',
+                        );
+        $limit = $this->input->post('length');
+        $start = $this->input->post('start');
+        $order = $columns[$this->input->post('order')[0]['column']];
+        $dir = $this->input->post('order')[0]['dir'];
+        $totalData = $this->Summon_model->allposts_count();
+        $totalFiltered = $totalData; 
+
+         if(empty($this->input->post('search')['value']))
+        {            
+            $list = $this->Summon_model->allposts($limit,$start,$order,$dir);
+        }
+        else {
+            $search = $this->input->post('search')['value']; 
+
+            $list =  $this->Summon_model->posts_search($limit,$start,$search,$order,$dir);
+
+            $totalFiltered = $this->Summon_model->posts_search_count($search);
+        }
+     
+        $data = array();
+        if(!empty($list))
+        foreach ($list as $l) {
+                $nestedData['id'] = $l->summon_id;
+                $nestedData['comp_name'] = $l->c_fname.' '.$l->c_lname.', '.$l->c_mname;
+                $nestedData['resp_name'] = $l->r_fname.' '.$l->r_lname.', '.$l->r_mname;
+                $nestedData['brycasenumber'] = $l->brgycasenum;
+                $nestedData['details'] = $l->details;
+                $nestedData['datetime'] =  $l->summon_date;
+                $nestedData['button'] = '<a type="button" id="generateBtn" class="btn btn-primary generateBtn">GENERATE</a> <button type="button" class="btn btn-warning">EDIT</button>';
+               // $nestedData['button'] = '<a type="button" target="_blank" href="'.base_url().'summons/summontFormat" class="btn btn-primary">GENERATE</a> <button type="button" class="btn btn-warning">EDIT</button>';
+                $data[] = $nestedData;
+
+        }
+
+            $json_data = array(
+                    "draw"            => intval($this->input->post('draw')),  
+                    "recordsTotal"    => intval($totalData),  
+                    "recordsFiltered" => intval($totalFiltered), 
+                    "data"            => $data   
+                    );
+            
+        echo json_encode($json_data); 
+	  }
 
 	function create(){
 	    $page_vars = array();
@@ -72,7 +123,7 @@ class Summons extends MY_Controller {
 	function summontFormat(){
 		$page_vars = array();
 
-		$this->load->view('pages/summons/summonFormat',$page_vars);
+		return $this->load->view('pages/summons/summonFormat',$page_vars);
 	}
 
  function generate(){
