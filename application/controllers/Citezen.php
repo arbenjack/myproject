@@ -31,7 +31,8 @@ class Citezen extends MY_Controller {
 
             $columns = array( 
                             0 =>'citizen_id',
-
+                            1 =>'first_name',
+                            2 =>'street',
                         );
         $limit = $this->input->post('length');
         $start = $this->input->post('start');

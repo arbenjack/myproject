@@ -9,11 +9,12 @@ class Summons extends MY_Controller {
         if (!$this->session->userdata('my_auth')) {
 			redirect('app/login');
 		}
-
+		$this->load->model('Citezen_model');
 	}
 
 	function list(){
 		  $page_vars = array();
+		  $this->loadJS('custom/summon.js');
 
         $this->load->view('template/adminlte',array_merge([
            'page_view' => 'pages/summons/list',
@@ -26,8 +27,43 @@ class Summons extends MY_Controller {
 	function create(){
 	    $page_vars = array();
 
+	    $allCitezens = $this->Citezen_model->getAllcitizensDropDown();
+	    $allCitezens1 = array();
+	    if(!empty($allCitezens)){
+	    	foreach ($allCitezens as $value) {
+	    		$allCitezens1[$value->citizen_id] = $value->first_name.' '.$value->last_name;
+	    	}
+	    }
+	       $page_vars['allCitezens'] = $allCitezens1;
+
+	     $this->form_validation
+	          ->set_rules('complainant', 'Complainant', 'required|differs[repondent]')
+              ->set_rules('repondent', 'Respondent', 'required|differs[complainant]')
+              ->set_rules('caseNumber', 'Barangay Case Number#', 'required')
+              ->set_rules('details','Details','required')
+              ->set_rules('summonday', 'Summon Date', 'required')
+              ->set_rules('summontime', 'Summon Time', 'required');
+             if ($this->form_validation->run()) {
+             	$insert = $this->Common_model->insert('summons',[
+             			'complainance_id' => $this->input->post('complainant'),
+             			'respondent_id' => $this->input->post('repondent'),
+             			'brgycasenum' => $this->input->post('caseNumber'),
+             			'details' => $this->input->post('details'),
+             			'summon_date' => $this->input->post('summonday').' '.$this->input->post('summontime'),
+             		]);
+             	 if($insert){
+             	 message('success','Succesfully created summon form.');
+                  redirect('summons/create');
+           		 }else{
+            	 message('danger','failed created summon form.');
+                redirect('summons/create');
+            	}
+             }else{
+
+             }
+	 
         $this->load->view('template/adminlte',array_merge([
-           'page_view' => 'pages/summons/list',
+           'page_view' => 'pages/summons/create',
             'page_tittle' => 'CREATE A SUMMON',
             'page_webTittle' => 'CREATE A SUMMON',
              ], $page_vars ));

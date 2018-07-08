@@ -1,7 +1,14 @@
 <?php defined('BASEPATH') or die('No direct script access allowed');
 
 class Citezen_model extends CI_Model {
+    function getAllcitizensDropDown(){
+        $query = $this->db->select()
+           ->get('citizens');
+        if($query->num_rows() > 0)
+            return $query->result();
 
+        return array();
+    }
 	function CitezenList(){
 		$query = $this->db->select('citizens.*, citAdd.*, prov.provDesc as provinceName, citMun.citymunDesc as cityMunName, brgy.brgyDesc as brgyName')
 			->where('is_deleted',0)

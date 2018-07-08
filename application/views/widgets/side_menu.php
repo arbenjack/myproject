@@ -64,6 +64,17 @@
             <li class=""><a href=""><i class="fa fa-circle-o"></i> Create Certificate </a></li>
           </ul>
         </li>
+         <li class="treeview <?php if($sideBarVarClass == 'settings')echo 'active';?>"">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Settings</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'settings/mainSettings')echo 'active';?>"><a href="<?= base_url().'settings/mainSettings' ?>"><i class="fa fa-circle-o"></i> Summon Settings </a></li>
+          </ul>
+        </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Users</span>

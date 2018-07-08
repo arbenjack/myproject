@@ -13,6 +13,7 @@
    <link rel="stylesheet" href="<?=base_url()?>assets/others/select2.min.css">
   <!--  datepicker css  -->
    <link rel="stylesheet" href="<?=base_url()?>assets/others/bootstrap-datepicker.min.css">
+      <link rel="stylesheet" href="<?=base_url()?>assets/others/bootstrap-clockpicker.min.css">
       <!-- datatable -->
   <link rel="stylesheet" href="<?=base_url()?>assets/others/jquery.dataTables.min.css">
    <!-- main -->

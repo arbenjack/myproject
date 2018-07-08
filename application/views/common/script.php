@@ -8,8 +8,11 @@
 <script src="<?=base_url()?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?=base_url()?>assets/dist/js/demo.js"></script>
+
+<script src="<?=base_url()?>assets/others/moment-with-locales.js"></script>
 <!-- select2 -->
 <script src="<?=base_url()?>assets/others/bootstrap-datepicker.min.js"></script>
+<script src="<?=base_url()?>assets/others/bootstrap-clockpicker.min.js"></script>
 <!-- datatable -->
 <script src="<?=base_url()?>assets/others/jquery.dataTables.min.js"></script>
 <!-- date picker -->
