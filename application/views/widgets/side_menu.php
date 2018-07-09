@@ -72,7 +72,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'settings/mainSettings')echo 'active';?>"><a href="<?= base_url().'settings/mainSettings' ?>"><i class="fa fa-circle-o"></i> Summon Settings </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'settings/mainSettings')echo 'active';?>"><a href="<?= base_url().'settings/mainSettings' ?>"><i class="fa fa-circle-o"></i> Main Settings </a></li>
           </ul>
         </li>
         <li class="treeview">

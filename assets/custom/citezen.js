@@ -6,7 +6,7 @@ $(document).ready(function(){
         responsive : true,
 
         ajax: {
-            'url': App.siteurl + 'summon/getListCitezens',
+            'url': App.siteurl + 'citezen/getListCitezens',
             'method': 'POST',
              'dataType': "json",
              "data":{  '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>' }

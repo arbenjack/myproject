@@ -10,7 +10,8 @@ class Summons extends MY_Controller {
 			redirect('app/login');
 		}
 		$this->load->model('Citezen_model')
-				->model('Summon_model');
+				->model('Summon_model')
+                ->model('Settings_model');
 	}
 
 	function list(){
@@ -122,7 +123,17 @@ class Summons extends MY_Controller {
 
 	function summontFormat(){
 		$page_vars = array();
-
+       $sumon = $this->Summon_model->getsummonData($this->input->post('id'));
+        $settings = $this->Settings_model->getAllsettings();
+          $settings1 = array();
+        if(!empty($settings)){
+            foreach ($settings as $value) {
+                  $settings1[$value->setings_id] = $value->settings_name;
+            }
+          
+        }
+       $page_vars['allSettings'] = $settings1;
+       $page_vars['summonDetails'] = $sumon;
 		return $this->load->view('pages/summons/summonFormat',$page_vars);
 	}
 

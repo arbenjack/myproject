@@ -32,11 +32,24 @@
 
 <!-- Begin inline CSS -->
 <style type="text/css" >
-
+.center {
+	/*
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50px;
+        margin-left: -50px; 
+        margin-top: -25px; 
+          width: 200px;
+    */
+  	width: 100%;
+  	margin-left: auto;
+  	margin-right: auto;
+}​
 #t1_1{left:138px;bottom:1277px;}
 #t2_1{left:333px;bottom:1214px;}
 #t3_1{left:393px;bottom:1193px;}
-#t4_1{left:249px;bottom:1172px;}
+#t4_1{left:319px;bottom:1172px;}
 #t5_1{left:280px;bottom:1108px;}
 #t6_1{left:138px;bottom:1045px;}
 #t7_1{left:523px;bottom:1045px;}
@@ -60,7 +73,7 @@
 #tp_1{left:138px;bottom:434px;}
 #tq_1{left:138px;bottom:392px;}
 #tr_1{left:138px;bottom:349px;}
-#ts_1{left:468px;bottom:265px;}
+#ts_1{left:530px;bottom:265px;}
 #tt_1{left:564px;bottom:244px;}
 
 .s1_1{
@@ -102,10 +115,10 @@
 
 <!-- Begin text definitions (Positioned/styled in CSS) -->
 <div id="t1_1" class="t s1_1">BJ Form No. 7</div>
-<div id="t2_1" class="t s1_1">REPUBLIC OF THE PHILIPPINES</div>
-<div id="t3_1" class="t s1_1">CITY OF MANILA</div>
-<div id="t4_1" class="t s1_1">BARANGAY _________, ZONE _____, DISTRICT_____</div>
-<div id="t5_1" class="t s2_1">OFFICE OF THE LUPON TAGAPAMAYAPA</div>
+<div id="t2_1" class="t s1_1 center">REPUBLIC OF THE PHILIPPINES</div>
+<div id="t3_1" class="t s1_1 "><span class="center"> CITY OF <?=empty($allSettings[3]) == true? '' : $allSettings[3] ?></span></div>
+<div id="t4_1" class="t s1_1 center">BARANGAY <span style="text-decoration: underline;"><?=empty($allSettings[4]) == true? '' : $allSettings[4] ?></span>, <!--ZONE _____,--> DISTRICT <span style="text-decoration: underline;"><?=empty($allSettings[5]) == true? '' : $allSettings[5] ?></div>
+<div id="t5_1" class="t s2_1 center">OFFICE OF THE LUPON TAGAPAMAYAPA</div>
 <div id="t6_1" class="t s1_1">_____________________________</div>
 <div id="t7_1" class="t s1_1">Barangay Case No. _________</div>
 <div id="t8_1" class="t s1_1">_____________________________</div>
@@ -128,7 +141,7 @@
 <div id="tp_1" class="t s1_1">summons, you may be barred from filing any counterclaim arising from said complaint.</div>
 <div id="tq_1" class="t s1_1">FAIL NOT or else face punishment as contempt of court.</div>
 <div id="tr_1" class="t s1_1">This ____day of ______________________ , 201_______.</div>
-<div id="ts_1" class="t s1_1">__________________________________</div>
+<div id="ts_1" class="t s1_1" style="text-decoration: underline;"><?=empty($allSettings[1]) == true? '' : $allSettings[1] ?></div>
 <div id="tt_1" class="t s1_1">Punong Barangay</div>
 
 <!-- End text definitions -->

@@ -1,7 +1,25 @@
 <?php defined('BASEPATH') or die('No direct script access allowed');
 
 class Summon_model extends CI_Model {
+        function getsummonData($summon_id = 0){
+        $query = $this->db->select('
+            summons.*, 
+            complinant.first_name as c_fname,
+            complinant.last_name as c_lname,
+            complinant.mid_name as c_mname,
+            respondent.first_name as r_fname,
+            respondent.last_name as r_lname,
+            respondent.mid_name as r_mname')
+            ->where('summon_id',$summon_id )
+            ->join('citizens as complinant','complinant.citizen_id = summons.complainance_id','LEFT')
+            ->join('citizens as respondent','respondent.citizen_id = summons.respondent_id','LEFT')
+            ->get('summons');
 
+        if($query->num_rows() > 0){
+            return $query->row();
+        }
+        return array();
+    }
 	function summonList(){
 		$query = $this->db->select('
 			summons.*, 
