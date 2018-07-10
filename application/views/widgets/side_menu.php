@@ -15,7 +15,7 @@
         -->
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?= $this->session->userdata('my_auth')['username'] ?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -23,14 +23,14 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li>
-          <a href="#">
+        <li class=" <?php if($sideBarVarClass == 'dasboard')echo 'active';?>">
+          <a href="<?= base_url() ?>">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
        <li class="treeview <?php if($sideBarVarClass == 'citezen')echo 'active';?>">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Citezens</span>
+            <i class="fa fa-users"></i> <span>Citezens</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -42,7 +42,7 @@
         </li>
         <li class="treeview <?php if($sideBarVarClass == 'summons')echo 'active';?>">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Summons</span>
+            <i class="fa fa-university"></i> <span>Summons</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -54,7 +54,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Certificate</span>
+            <i class="fa fa-envelope-open "></i> <span>Certificate</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -66,7 +66,7 @@
         </li>
          <li class="treeview <?php if($sideBarVarClass == 'settings')echo 'active';?>"">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Settings</span>
+            <i class="fa fa-cogs"></i> <span>Settings</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -77,7 +77,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Users</span>
+            <i class="fa fa-user-circle-o"></i> <span>Users</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

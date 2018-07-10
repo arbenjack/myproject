@@ -15,8 +15,8 @@ class Login extends CI_Model {
 				// Set sessions
 				$this->session->set_userdata('my_auth', [
 					'user_id' => $row->user_id,
-					'username' => $row->user_name,
-					'token' => md5($row->user_name),
+					'username' => $row->username,
+					'token' => md5($row->username),
 				]);
 
 				return true;
