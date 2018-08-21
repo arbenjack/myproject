@@ -14,11 +14,11 @@ class Dasboard extends MY_Controller {
 
 	public function index() {
 		$page_vars = array();
-
-		$this->load->view('template/adminlte', [
+		
+		$this->load->view('template/adminlte',array_merge([
 			'page_view' => 'pages/dashboard',
 			'page_tittle' => 'DASHBOARD',
 			'page_webTittle' => 'DASBOARD',
-		]);
+		],$page_vars));
 	}
 }

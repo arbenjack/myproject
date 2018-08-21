@@ -28,65 +28,47 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-       <li class="treeview <?php if($sideBarVarClass == 'citezen')echo 'active';?>">
+     
+        <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Citezens</span>
+            <i class="fa fa-envelope-open "></i> <span>Clients</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'citezen/list')echo 'active';?>"><a href="<?= base_url().'citezen/list' ?>"><i class="fa fa-circle-o"></i> List of Citezens </a></li>
-            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'citezen/create')echo 'active';?>"><a href="<?= base_url().'citezen/create' ?>"><i class="fa fa-circle-o"></i> Create Citezen </a></li>
+            <li class=""><a href="<?= base_url().'client/listClient' ?>"><i class="fa fa-circle-o"></i> Clients List </a></li>
+            <li class=""><a href="<?= base_url().'client/create' ?>"><i class="fa fa-circle-o"></i> Create Client </a></li>
           </ul>
         </li>
-        <li class="treeview <?php if($sideBarVarClass == 'summons')echo 'active';?>">
+
+           <li class="treeview">
           <a href="#">
-            <i class="fa fa-university"></i> <span>Summons</span>
+            <i class="fa fa-envelope-open "></i> <span>Loans</span>
+            
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
+           
           </a>
           <ul class="treeview-menu">
-            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'summons/list')echo 'active';?>"><a href="<?= base_url().'summons/list' ?>"><i class="fa fa-circle-o"></i> List of Summons </a></li>
-            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'summons/create')echo 'active';?>"><a href="<?= base_url().'summons/create' ?>"><i class="fa fa-circle-o"></i> Create Summons </a></li>
+            <li class=""><a href="<?= base_url().'loan/loanApplication' ?>"><i class="fa fa-circle-o"></i> Loan Application </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Release </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Payment </a></li>
+            <!--
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Product </a></li>
+            -->
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-envelope-open "></i> <span>Certificate</span>
+            <i class="fa fa-envelope-open "></i> <span>Journal List</span>
+            <!--
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
+             -->
           </a>
-          <ul class="treeview-menu">
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Contributed Certificates </a></li>
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Create Certificate </a></li>
-          </ul>
-        </li>
-         <li class="treeview <?php if($sideBarVarClass == 'settings')echo 'active';?>"">
-          <a href="#">
-            <i class="fa fa-cogs"></i> <span>Settings</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'settings/mainSettings')echo 'active';?>"><a href="<?= base_url().'settings/mainSettings' ?>"><i class="fa fa-circle-o"></i> Main Settings </a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-user-circle-o"></i> <span>Users</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> List of Users </a></li>
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Create Users </a></li>
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Permission </a></li>
-          </ul>
         </li>
       </ul>
     </section>
