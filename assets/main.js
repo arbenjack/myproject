@@ -16,5 +16,9 @@ $(document).ready(function(){
 	});
 
     /** datatable */
-      $('.mydatatable').DataTable();
+      $('.mydatatable').DataTable(
+        {
+          responsive: true
+      }
+      );
 });

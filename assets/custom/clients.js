@@ -6,5 +6,7 @@ $(document).ready(function(){
        responsive : true
     });
     */
-    $('#listClients').DataTable();
+    $('#listClients').DataTable({
+        responsive: true
+    });
 });

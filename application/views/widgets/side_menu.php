@@ -29,7 +29,7 @@
           </a>
         </li>
      
-        <li class="treeview">
+        <li class="treeview <?php if($sideBarVarClass == 'client')echo 'active';?>">
           <a href="#">
             <i class="fa fa-envelope-open "></i> <span>Clients</span>
             <span class="pull-right-container">
@@ -37,12 +37,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class=""><a href="<?= base_url().'client/listClient' ?>"><i class="fa fa-circle-o"></i> Clients List </a></li>
-            <li class=""><a href="<?= base_url().'client/create' ?>"><i class="fa fa-circle-o"></i> Create Client </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'client/listClient')echo 'active';?>"><a href="<?= base_url().'citezen/list' ?>"><a href="<?= base_url().'client/listClient' ?>"><i class="fa fa-circle-o"></i> Clients List </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'client/create')echo 'active';?>"><a href="<?= base_url().'client/create' ?>"><i class="fa fa-circle-o"></i> Create Client </a></li>
           </ul>
         </li>
 
-           <li class="treeview">
+           <li class="treeview <?php if($sideBarVarClass == 'loan')echo 'active';?>">
           <a href="#">
             <i class="fa fa-envelope-open "></i> <span>Loans</span>
             
@@ -52,8 +52,8 @@
            
           </a>
           <ul class="treeview-menu">
-            <li class=""><a href="<?= base_url().'loan/loanApplication' ?>"><i class="fa fa-circle-o"></i> Loan Application </a></li>
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Release </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'loan/loanApplication')echo 'active';?>"><a href="<?= base_url().'loan/loanApplication' ?>"><i class="fa fa-circle-o"></i> Loan Application </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'loan/loanRelease')echo 'active';?>"><a href="<?= base_url().'loan/loanRelease' ?>"><i class="fa fa-circle-o"></i> Loan Release </a></li>
             <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Payment </a></li>
             <!--
             <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Product </a></li>

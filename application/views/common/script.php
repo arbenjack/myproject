@@ -15,6 +15,8 @@
 <script src="<?=base_url()?>assets/others/bootstrap-clockpicker.min.js"></script>
 <!-- datatable -->
 <script src="<?=base_url()?>assets/others/jquery.dataTables.min.js"></script>
+<script src="<?=base_url()?>assets/others/dataTables.responsive.min.js"></script>
+
 <!-- date picker -->
 <script src="<?=base_url()?>assets/others/select2.min.js"></script>
 

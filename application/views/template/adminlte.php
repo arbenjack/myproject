@@ -31,8 +31,9 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  
+	<?php // $this->load->view('widgets/side_barOption');?>
 
-	<?php $this->load->view('widgets/side_barOption');?>
 </div>
 
 <?php $this->load->view('common/footer');?>
