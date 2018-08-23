@@ -35,9 +35,9 @@
         <td> <?=  date_format(date_create($list->BirthDate), 'Y-m-d') ?> </td>
         <td> 
             <a class="btn btn-default">
-                Action
+                View/Edit
             </a>
-            <a class="btn btn-success">
+            <a href="<?= base_url().'client/clientLoan/'.$list->ClientID ?>" class="btn btn-success">
                 Loan
             </a>
             <a href="<?= base_url().'client/createCheclist/'.$list->ClientID ?>" class="btn btn-warning">

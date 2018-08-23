@@ -31,7 +31,7 @@
      
         <li class="treeview <?php if($sideBarVarClass == 'client')echo 'active';?>">
           <a href="#">
-            <i class="fa fa-envelope-open "></i> <span>Clients</span>
+            <i class="fa fa-user-o  "></i> <span>Clients</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -44,7 +44,7 @@
 
            <li class="treeview <?php if($sideBarVarClass == 'loan')echo 'active';?>">
           <a href="#">
-            <i class="fa fa-envelope-open "></i> <span>Loans</span>
+            <i class="fa fa-money "></i> <span>Loans</span>
             
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -62,7 +62,26 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-envelope-open "></i> <span>Journal List</span>
+            <i class="fa fa-files-o "></i> <span>Reports</span>
+            
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+           
+          </a>
+          <ul class="treeview-menu">
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Past Due Reports </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Payment Reports </a></li>
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Savings CBU Report </a></li>
+            <!--
+            <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Product </a></li>
+            -->
+          </ul>
+        </li>
+
+         <li class="treeview">
+          <a href="#">
+            <i class="fa fa-gears "></i> <span>Settings</span>
             <!--
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

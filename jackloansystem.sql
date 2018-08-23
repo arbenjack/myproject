@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Aug 22, 2018 at 11:04 PM
--- Server version: 5.7.23-0ubuntu0.16.04.1
--- PHP Version: 7.2.8-1+ubuntu16.04.1+deb.sury.org+1
+-- Host: 127.0.0.1
+-- Generation Time: Aug 23, 2018 at 06:46 PM
+-- Server version: 10.1.29-MariaDB
+-- PHP Version: 7.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -139,6 +141,30 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `client_savings`
+--
+
+CREATE TABLE `client_savings` (
+  `savings_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL DEFAULT '0',
+  `loan_acountID` int(11) NOT NULL DEFAULT '0',
+  `cbuOnly` int(1) NOT NULL DEFAULT '0',
+  `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `amount_dr` decimal(19,4) NOT NULL DEFAULT '0.0000',
+  `amount_cr` decimal(19,4) NOT NULL DEFAULT '0.0000'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_savings`
+--
+
+INSERT INTO `client_savings` (`savings_id`, `client_id`, `loan_acountID`, `cbuOnly`, `dateCreated`, `amount_dr`, `amount_cr`) VALUES
+(1, 1, 1, 0, '2018-08-24 00:22:04', '0.0000', '300.0000'),
+(2, 7, 2, 0, '2018-08-24 00:22:43', '0.0000', '300.0000');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `loan_account`
 --
 
@@ -162,8 +188,23 @@ CREATE TABLE `loan_account` (
 --
 
 INSERT INTO `loan_account` (`loan_accountID`, `loanTypeID`, `client_id`, `loanAmount`, `termNumber`, `isPaid`, `intRate`, `loanStatus`, `dateCreated`, `isRelease`, `dateRelease`, `date_cutoff`) VALUES
-(1, 1, 1, '232323.000000', 0, 0, '3.7500', 'applied', '2018-08-22 03:21:44', 0, NULL, NULL),
-(2, 2, 7, '10000.000000', 0, 0, '7.5000', 'applied', '2018-08-22 22:15:19', 0, NULL, NULL);
+(1, 1, 1, '232323.000000', 3, 0, '3.7500', 'applied', '2018-08-22 03:21:44', 1, '2018-08-23 18:22:04', '2018-11-23 18:22:04'),
+(2, 2, 7, '10000.000000', 3, 0, '3.7500', 'applied', '2018-08-22 22:15:19', 1, '2018-08-23 18:22:43', '2018-11-23 18:22:43');
+
+--
+-- Triggers `loan_account`
+--
+DELIMITER $$
+CREATE TRIGGER `autoSavings` AFTER UPDATE ON `loan_account` FOR EACH ROW BEGIN
+
+DECLARE P1 VARCHAR(50);
+ SELECT set_value INTO P1 FROM settings WHERE settings_id=1;
+ 
+INSERT INTO client_savings(client_id,loan_acountID,amount_cr) VALUES(OLD.client_id,OLD.loanTypeID,P1);
+
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -175,7 +216,8 @@ CREATE TABLE `loan_payment` (
   `loan_paymentID` bigint(44) NOT NULL,
   `client_id` int(11) NOT NULL,
   `loanTypeID` int(11) NOT NULL,
-  `amount` decimal(19,6) NOT NULL,
+  `amount_dr` decimal(19,6) NOT NULL,
+  `amount_cr` decimal(19,4) NOT NULL,
   `dateTransaction` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -200,6 +242,25 @@ CREATE TABLE `loan_product` (
 INSERT INTO `loan_product` (`loan_productID`, `loanProduct_name`, `intM_Rate`, `loanM_Amount`, `DateRelease`) VALUES
 (1, 'loan 1', '5.0000', '10000.000000', NULL),
 (2, 'loan 2', '4.0000', '20000.000000', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `settings_id` int(11) NOT NULL,
+  `name` varchar(11) NOT NULL,
+  `set_value` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`settings_id`, `name`, `set_value`) VALUES
+(1, 'cbu', '300');
 
 -- --------------------------------------------------------
 
@@ -256,6 +317,12 @@ ALTER TABLE `client`
   ADD PRIMARY KEY (`ClientID`);
 
 --
+-- Indexes for table `client_savings`
+--
+ALTER TABLE `client_savings`
+  ADD PRIMARY KEY (`savings_id`);
+
+--
 -- Indexes for table `loan_account`
 --
 ALTER TABLE `loan_account`
@@ -272,6 +339,12 @@ ALTER TABLE `loan_payment`
 --
 ALTER TABLE `loan_product`
   ADD PRIMARY KEY (`loan_productID`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`settings_id`);
 
 --
 -- Indexes for table `users`
@@ -294,36 +367,50 @@ ALTER TABLE `usertypes`
 --
 ALTER TABLE `checklist`
   MODIFY `checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
   MODIFY `ClientID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `client_savings`
+--
+ALTER TABLE `client_savings`
+  MODIFY `savings_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `loan_account`
 --
 ALTER TABLE `loan_account`
   MODIFY `loan_accountID` bigint(44) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `loan_payment`
 --
 ALTER TABLE `loan_payment`
   MODIFY `loan_paymentID` bigint(44) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `loan_product`
 --
 ALTER TABLE `loan_product`
   MODIFY `loan_productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `usertypes`
 --
 ALTER TABLE `usertypes`
   MODIFY `usertype_id` int(12) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

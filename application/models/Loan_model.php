@@ -5,7 +5,8 @@ class Loan_model extends CI_Model {
     function getLoanAppList(){
         $query = $this->db->select()
             ->where([
-                'loanStatus' => 'applied'
+                'loanStatus' => 'applied',
+                'isRelease' => 0
             ])
             ->join('client as cl','cl.ClientID = loan_account.client_id','LEFT')
             ->join('loan_product as laonp','laonp.loan_productID = loan_account.loanTypeID','LEFT')
@@ -33,4 +34,39 @@ class Loan_model extends CI_Model {
     return array();
     }
 
+    function getLoanForRelease($client_id = 0, $loanProd = 0, $loanTerm = 0){
+        $whereArgs = array();
+        if($client_id > 0)
+        $whereArgs['client_id'] = $client_id;
+
+        if($loanProd > 0)
+        $whereArgs['loanTypeID'] = $loanProd;
+
+        if($loanTerm > 0)
+        $whereArgs['termNumber'] = $loanTerm;
+
+        $query = $this->db->select()
+        ->where(array_merge([
+            'loanStatus' => 'applied',
+            'isRelease' => 0
+        ],$whereArgs))
+        ->join('client as cl','cl.ClientID = loan_account.client_id','LEFT')
+        ->join('loan_product as laonp','laonp.loan_productID = loan_account.loanTypeID','LEFT')
+        ->get('loan_account');
+
+           if($query->num_rows() > 0){
+                 return $query->result();
+           }
+         return array();
+    }
+
+    function getAllLoanReleases($whereArray  = array()){
+        $query = $this->db->select()
+            ->where_in('loan_accountID',$whereArray)
+            ->get('loan_account');
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+        return array();
+    }
 }

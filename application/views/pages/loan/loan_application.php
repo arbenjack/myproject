@@ -66,13 +66,13 @@
               <?= form_open() ?>
             <div class="form-group">
                   <label>Select Client</label>
-                <?=form_dropdown('client',$listClients,'',['class' => 'form-control select2event' ])?>
+                <?=form_dropdown('client',$listClients,set_value('client') ,['class' => 'form-control select2event' ])?>
     
                 <?=formErrorh('danger',form_error('client'))?>
              </div>
              <div class="form-group">
                   <label>Select Loan</label>
-                <?=form_dropdown('loanproduct',$listProduct,'',['class' => 'form-control select2event' ])?>
+                <?=form_dropdown('loanproduct',$listProduct,set_value('loanproduct') ,['class' => 'form-control select2event' ])?>
                 
                 <?=formErrorh('danger',form_error('loanproduct'))?>
              </div>
@@ -84,7 +84,6 @@
                         3 => '9 months',
                         4 => '12 months'  
                 ],'',['class' => 'form-control select2event' ])?>
-  
              </div>
              <div class="form-group">
                   <label for="fn">Input Amount</label>

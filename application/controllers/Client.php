@@ -110,6 +110,16 @@ class Client extends MY_Controller {
 		}
 	}
 
+	function clientLoan($client_id = 0){
+		$page_vars = array();
+
+		$this->load->view('template/adminlte',array_merge([
+			'page_view' => 'pages/client/client_loans',
+			'page_tittle' => 'Client Loan List',
+			'page_webTittle' => 'Client Loan List',
+		],$page_vars));
+	}
+
 
 	function forTestJoin(){
 		$day = "tue";
