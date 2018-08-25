@@ -122,6 +122,7 @@ class Client extends MY_Controller {
 
 
 	function forTestJoin(){
+		// tambok ka nga gwapo...
 		$day = "tue";
 		$dayQuery = "MWF";
 		if($day == "thu" || $day == "tue"){

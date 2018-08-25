@@ -144,7 +144,7 @@ class Loan extends MY_Controller {
 	}
 
 	function createLoanRelease(){
-	 //print_r($this->input->post('releases'));
+	// print_r($this->input->post('releases'));die;
 		if(!empty($this->input->post('releases'))){
 			$releasePost = $this->input->post('releases');
 			$ListLoanAcct = $this->Loan_model->getAllLoanReleases($releasePost);
