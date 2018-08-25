@@ -42,7 +42,7 @@
           </ul>
         </li>
 
-           <li class="treeview <?php if($sideBarVarClass == 'loan')echo 'active';?>">
+           <li class="treeview <?php if($sideBarVarClass == 'loan' || $sideBarVarClass == 'Loan_payment')echo 'active';?>">
           <a href="#">
             <i class="fa fa-money "></i> <span>Loans</span>
             
@@ -54,7 +54,7 @@
           <ul class="treeview-menu">
             <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'loan/loanApplication')echo 'active';?>"><a href="<?= base_url().'loan/loanApplication' ?>"><i class="fa fa-circle-o"></i> Loan Application </a></li>
             <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'loan/loanRelease')echo 'active';?>"><a href="<?= base_url().'loan/loanRelease' ?>"><i class="fa fa-circle-o"></i> Loan Release </a></li>
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Payment </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'Loan_payment/viewloanPayment')echo 'active';?>"><a href="<?= base_url().'Loan_payment/viewloanPayment' ?>"><i class="fa fa-circle-o"></i> Loan Payment </a></li>
             <!--
             <li class=""><a href=""><i class="fa fa-circle-o"></i> Loan Product </a></li>
             -->

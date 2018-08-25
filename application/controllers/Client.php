@@ -46,8 +46,8 @@ class Client extends MY_Controller {
 				'MiddleName' => $this->input->post('mname'),
 				'BirthDate' => $this->input->post('datebirth'),
 				'Gender' => $this->input->post('gender'),
-				'HomeAddress1' => $this->input->post('phonenumber'),
-				'HomeAddressContact' => $this->input->post('address')
+				'HomeAddress1' => $this->input->post('address'),
+				'HomeAddressContact' => $this->input->post('phonenumber')
 			]);
 			if ($insert_add) {
 				message('success', 'Succesfully added Client.');
