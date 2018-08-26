@@ -34,7 +34,7 @@
         <td> <?= $list->HomeAddress1 ?> </td>
         <td> <?=  date_format(date_create($list->BirthDate), 'Y-m-d') ?> </td>
         <td> 
-            <a class="btn btn-default">
+            <a href="<?= base_url().'client/update/'.$list->ClientID ?>"class="btn btn-default">
                 View/Edit
             </a>
             <a href="<?= base_url().'client/clientLoan/'.$list->ClientID ?>" class="btn btn-success">

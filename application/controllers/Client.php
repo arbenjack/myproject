@@ -134,5 +134,60 @@ class Client extends MY_Controller {
 		$result = $this->Client_model->joiningTest(7);
 		print_r($result);die;
 	}
+	function textView(){
+		$var = array();
+		$var['clientDetails'] = "list of clients";
+		$var['data'] = 'jfdafdsf';
+		$this->load->view('pages/client/testview',$var);
+	}
+
+function update($id){
+	//print_r($client_id);die();
+$page_vars=array();
+	$clientInfo = $this->Client_model->getClientInfo($id);
+	//print_r($clientInfo);die();
+	$page_vars['infoClient'] = $clientInfo;
+	$this->form_validation->set_rules('fname','First Name','required')
+			->set_rules('lname','Last Name','required')
+			->set_rules('mname','Middle Name','required')
+			->set_rules('datebirth','Birthdate','required')
+			->set_rules('gender','Gender','required')
+			->set_rules('phonenumber','Phone Number','required|numeric')
+			->set_rules('address','Address','required');
+			if($this->form_validation->run()){
+	
+				$update =	$this->Common_model->update('client',[
+						'FirstName' => $this->input->post('fname'),
+						'LastName' => $this->input->post('lname'),
+						'MiddleName' => $this->input->post('mname'),
+						'Birthdate' => $this->input->post('datebirth'),
+						'Gender' => $this->input->post('gender'),
+						'HomeAddressContact' => $this->input->post('phonenumber'),
+						'HomeAddress1' => $this->input->post('address'),
+				
+				],[
+					'ClientID' => $id
+				]);
+				if ($update) {
+				message('success', 'Succesfully update c');
+				redirect('client/update/'.$id);
+			}else{
+				message('danger', 'failed to update.');
+				redirect('client/update/'.$id);
+				}
+
+			}else{
+
+			}
+ 
+
+		$this->load->view('template/adminlte',array_merge([
+			'page_view' => 'pages/client/client_update',
+			'page_tittle' => 'update of Client',
+			'page_webTittle' => 'update of Client',
+		],$page_vars));
+	}
+
+
 
 }
