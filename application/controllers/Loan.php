@@ -154,6 +154,7 @@ class Loan extends MY_Controller {
 				$date = new DateTime();
 				$date->add(new DateInterval('P'.$list->termNumber.'M'));				
 				$update =	$this->Common_model->update('loan_account',[
+					'loanStatus' => 'release',
 					'isRelease' => 1,
 					'dateRelease' => date('Y-m-d H:i:s'),
 					'date_cutoff' => $date->format('Y-m-d H:i:s'),
