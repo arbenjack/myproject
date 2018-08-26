@@ -98,3 +98,4 @@ class Loan_payment extends MY_Controller {
        }
     }
 }
+

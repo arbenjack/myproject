@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2018 at 06:46 PM
+-- Generation Time: Aug 26, 2018 at 07:17 AM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -46,11 +46,12 @@ INSERT INTO `checklist` (`checklist_id`, `client_id`, `colateral`, `seminar`, `c
 (2, 1, 1, 1, 1, 1),
 (3, 7, 1, 1, 1, 1),
 (4, 2, 0, 0, 1, 1),
-(5, 13, 0, 0, 0, 0),
+(5, 13, 1, 1, 1, 1),
 (6, 5, 0, 0, 0, 0),
 (7, 8, 0, 0, 0, 0),
-(8, 9, 1, 1, 0, 0),
-(9, 6, 0, 0, 0, 0);
+(8, 9, 1, 1, 1, 1),
+(9, 6, 1, 1, 0, 0),
+(10, 4, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -159,8 +160,8 @@ CREATE TABLE `client_savings` (
 --
 
 INSERT INTO `client_savings` (`savings_id`, `client_id`, `loan_acountID`, `cbuOnly`, `dateCreated`, `amount_dr`, `amount_cr`) VALUES
-(1, 1, 1, 0, '2018-08-24 00:22:04', '0.0000', '300.0000'),
-(2, 7, 2, 0, '2018-08-24 00:22:43', '0.0000', '300.0000');
+(1, 1, 1, 0, '2018-08-26 05:33:20', '0.0000', '300.0000'),
+(2, 9, 1, 0, '2018-08-26 05:41:25', '0.0000', '300.0000');
 
 -- --------------------------------------------------------
 
@@ -176,7 +177,7 @@ CREATE TABLE `loan_account` (
   `termNumber` int(11) NOT NULL DEFAULT '0',
   `isPaid` int(1) NOT NULL DEFAULT '0',
   `intRate` decimal(19,4) NOT NULL DEFAULT '0.0000',
-  `loanStatus` enum('pending','applied','disapproved','approve','canceled','outstanding','write_off','fully_paid') NOT NULL,
+  `loanStatus` enum('pending','applied','disapproved','approve','canceled','outstanding','write_off','fully_paid','release') NOT NULL,
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isRelease` int(1) NOT NULL DEFAULT '0',
   `dateRelease` datetime DEFAULT NULL,
@@ -188,8 +189,8 @@ CREATE TABLE `loan_account` (
 --
 
 INSERT INTO `loan_account` (`loan_accountID`, `loanTypeID`, `client_id`, `loanAmount`, `termNumber`, `isPaid`, `intRate`, `loanStatus`, `dateCreated`, `isRelease`, `dateRelease`, `date_cutoff`) VALUES
-(1, 1, 1, '232323.000000', 3, 0, '3.7500', 'applied', '2018-08-22 03:21:44', 1, '2018-08-23 18:22:04', '2018-11-23 18:22:04'),
-(2, 2, 7, '10000.000000', 3, 0, '3.7500', 'applied', '2018-08-22 22:15:19', 1, '2018-08-23 18:22:43', '2018-11-23 18:22:43');
+(1, 1, 1, '10000.000000', 3, 0, '3.7500', 'release', '2018-08-26 05:33:02', 1, '2018-08-25 23:33:20', '2018-11-25 23:33:20'),
+(2, 1, 9, '20000.000000', 6, 0, '7.5000', 'release', '2018-08-26 05:40:54', 1, '2018-08-25 23:41:25', '2019-02-25 23:41:25');
 
 --
 -- Triggers `loan_account`
@@ -201,6 +202,8 @@ DECLARE P1 VARCHAR(50);
  SELECT set_value INTO P1 FROM settings WHERE settings_id=1;
  
 INSERT INTO client_savings(client_id,loan_acountID,amount_cr) VALUES(OLD.client_id,OLD.loanTypeID,P1);
+
+INSERT INTO loan_payment(client_id,loanAcct_id,loanTypeID,amount_dr,amount_cr,isRelease) VALUES(OLD.client_id,OLD.loan_accountID,OLD.loanTypeID,(OLD.loanAmount + ((OLD.intRate * OLD.loanAmount) / 100)),0,1);
 
 END
 $$
@@ -215,11 +218,24 @@ DELIMITER ;
 CREATE TABLE `loan_payment` (
   `loan_paymentID` bigint(44) NOT NULL,
   `client_id` int(11) NOT NULL,
+  `loanAcct_id` int(11) NOT NULL,
   `loanTypeID` int(11) NOT NULL,
+  `isRelease` int(1) NOT NULL DEFAULT '0',
   `amount_dr` decimal(19,6) NOT NULL,
   `amount_cr` decimal(19,4) NOT NULL,
   `dateTransaction` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `loan_payment`
+--
+
+INSERT INTO `loan_payment` (`loan_paymentID`, `client_id`, `loanAcct_id`, `loanTypeID`, `isRelease`, `amount_dr`, `amount_cr`, `dateTransaction`) VALUES
+(1, 1, 1, 1, 1, '10375.300000', '0.0000', '2018-08-26 05:33:20'),
+(2, 1, 1, 1, 0, '0.000000', '1000.0000', '2018-08-26 05:38:29'),
+(3, 9, 2, 1, 1, '21500.000000', '0.0000', '2018-08-26 05:41:25'),
+(4, 9, 2, 1, 0, '0.000000', '10000.0000', '2018-08-26 10:47:45'),
+(6, 1, 1, 1, 0, '0.000000', '3000.0000', '2018-08-26 11:21:22');
 
 -- --------------------------------------------------------
 
@@ -240,8 +256,9 @@ CREATE TABLE `loan_product` (
 --
 
 INSERT INTO `loan_product` (`loan_productID`, `loanProduct_name`, `intM_Rate`, `loanM_Amount`, `DateRelease`) VALUES
-(1, 'loan 1', '5.0000', '10000.000000', NULL),
-(2, 'loan 2', '4.0000', '20000.000000', NULL);
+(1, 'Agricultural', '5.0000', '10000.000000', NULL),
+(2, 'Emergency', '4.0000', '20000.000000', NULL),
+(3, 'SLP', '5.0000', '10000.000000', NULL);
 
 -- --------------------------------------------------------
 
@@ -366,7 +383,7 @@ ALTER TABLE `usertypes`
 -- AUTO_INCREMENT for table `checklist`
 --
 ALTER TABLE `checklist`
-  MODIFY `checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -390,13 +407,13 @@ ALTER TABLE `loan_account`
 -- AUTO_INCREMENT for table `loan_payment`
 --
 ALTER TABLE `loan_payment`
-  MODIFY `loan_paymentID` bigint(44) NOT NULL AUTO_INCREMENT;
+  MODIFY `loan_paymentID` bigint(44) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `loan_product`
 --
 ALTER TABLE `loan_product`
-  MODIFY `loan_productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `loan_productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
