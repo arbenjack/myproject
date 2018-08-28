@@ -112,33 +112,31 @@ class Client extends MY_Controller {
 
 	function clientLoan($client_id = 0){
 		$page_vars = array();
+		$page_vars['LaonList'] = $this->Client_model->getClientLoanList($client_id);
+		/*
+		$allCLient = $this->Client_model->getListOfclients();
+		$clients = array();
+		$clients[] = '--Select--';
+		if (!empty($allCLient)) {
+			foreach ($allCLient as $value) {
+				$clients[$value->ClientID] = $value->LastName.', '.$value->FirstName." ".$value->MiddleName;
+			}
+		}
+		$page_vars['listClients'] = $clients;
 
+		$this->form_validation->set_rules('client','Select Client','required');
+			if($this->form_validation->run()){
+				$page_vars['LaonList'] = $this->Client_model->getClientLoanList($this->input->post('client'));		
+			}else{
+
+			}
+		//$page_vars['LaonList'] = $this->Client_model->getClientLoanList();
+		*/
 		$this->load->view('template/adminlte',array_merge([
 			'page_view' => 'pages/client/client_loans',
 			'page_tittle' => 'Client Loan List',
 			'page_webTittle' => 'Client Loan List',
 		],$page_vars));
-	}
-
-
-	function forTestJoin(){
-		// tambok ka nga gwapo...
-		$day = "tue";
-		$dayQuery = "MWF";
-		if($day == "thu" || $day == "tue"){
-			$dayQuery = "TTH";
-		}else{
-			$dayQuery = "MWF";
-		}
-		$query = "";
-		$result = $this->Client_model->joiningTest(7);
-		print_r($result);die;
-	}
-	function textView(){
-		$var = array();
-		$var['clientDetails'] = "list of clients";
-		$var['data'] = 'jfdafdsf';
-		$this->load->view('pages/client/testview',$var);
 	}
 
 function update($id){
@@ -188,6 +186,82 @@ $page_vars=array();
 		],$page_vars));
 	}
 
+	function clientLoanTransaction($loan_id = 0){
+		$page_vars = array();
+		if($loan_id > 0){
+			$page_vars['transList'] = $this->Client_model->getClientLoanTransactions($loan_id);
+		    $loanInfo = $this->Client_model->getClientLoanAccount($loan_id);
+			$page_vars['loanAccountInfo'] = $loanInfo;
+
+			$object = new stdClass();
+			$object->amount_dr = $loanInfo->loanAmount;
+			$object->amount_cr = 0;
+			$object->dateTransaction = $loanInfo->dateRelease;
+			$object->isRelease = 1;
+			$object->isPenalty = 0;
+			$object->isInterest = 0;
+			$page_vars['transList'][] = $object;
+
+			$object = new stdClass();
+			$object->amount_dr = (($loanInfo->loanAmount * $loanInfo->intRate) /100);
+			$object->amount_cr = 0;
+			$object->dateTransaction = $loanInfo->dateRelease;
+			$object->isRelease = 0;
+			$object->isPenalty = 0;
+			$object->isInterest = 1;
+			$page_vars['transList'][] = $object;
+			/*
+			$page_vars['transList'][] = new Object([
+				'amount_dr' => $loanInfo->loanAmount,
+				'amount_cr' => 0,
+				'dateTransaction' => $loanInfo->dateRelease,
+				'isRelease' => 1,
+				'isPenalty' => 0
+			]);	
+			*/
+			//print_r($page_vars['transList']);die;
+			$this->load->view('template/adminlte',array_merge([
+				'page_view' => 'pages/client/client_loan_trans',
+				'page_tittle' => 'Client Loan Transaction',
+				'page_webTittle' => 'Client Loan Transaction',
+			],$page_vars));
+		}
+	}
+
+	function clientCBUsavings($client_id = 0){
+		$page_vars = array();
+		if($client_id > 0){
+			$savingsList = $this->Client_model->getClientSavings($client_id);
+			$page_vars['savingsList'] = $savingsList;
+			//print_r($page_vars);die;
+			$this->load->view('template/adminlte',array_merge([
+				'page_view' => 'pages/client/client_savingsCBU',
+				'page_tittle' => 'Client CBU Savings',
+				'page_webTittle' => 'Client CBU Savings',
+			],$page_vars));
+		}
+	
+	}
+
+	function forTestJoin(){
+		// tambok ka nga gwapo...
+		$day = "tue";
+		$dayQuery = "MWF";
+		if($day == "thu" || $day == "tue"){
+			$dayQuery = "TTH";
+		}else{
+			$dayQuery = "MWF";
+		}
+		$query = "";
+		$result = $this->Client_model->joiningTest(7);
+		print_r($result);die;
+	}
+	function textView(){
+		$var = array();
+		$var['clientDetails'] = "list of clients";
+		$var['data'] = 'jfdafdsf';
+		$this->load->view('pages/client/testview',$var);
+	}
 
 
 }

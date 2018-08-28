@@ -56,4 +56,68 @@ return array();
      return array();
   }
 
+  function getClientLoanList($client_id = 0){
+            $query = $this->db->select()
+            ->where([
+               //'loanStatus' => 'applied',
+                //'isRelease' => 0
+                'client_id' => $client_id
+            ])
+            ->join('client as cl','cl.ClientID = loan_account.client_id','LEFT')
+            ->join('loan_product as laonp','laonp.loan_productID = loan_account.loanTypeID','LEFT')
+            ->get('loan_account');
+        // print_r($this->db->last_query());die;
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+        return array();
+  }
+
+        function getClientLoanAccount($loanID = 0){
+            $query = $this->db->select()
+            ->where([
+            //'loanStatus' => 'applied',
+                //'isRelease' => 0
+                'loan_accountID' => $loanID
+            ])
+            ->join('client as cl','cl.ClientID = loan_account.client_id','LEFT')
+            ->join('loan_product as laonp','laonp.loan_productID = loan_account.loanTypeID','LEFT')
+            ->get('loan_account');
+        // print_r($this->db->last_query());die;
+        if($query->num_rows() > 0){
+            return $query->row();
+        }
+        return array();
+        }
+
+  function getClientLoanTransactions($loanID = 0){
+    $query = $this->db->select()
+        ->where([
+            'loanAcct_id' => $loanID,
+            'isRelease' => 0
+        ])
+        //->join('loan_account as lact','lact.loan_accountID = loan_payment.loanAcct_id','LEFT')
+        ->ORDER_BY('dateTransaction','ASC')
+        ->get('loan_payment');
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+        return array();
+  }
+
+  function getClientSavings($client_id = 0){
+    $query = $this->db->select('client_savings.*,loanprod.loanProduct_name ')
+        ->where([
+            'client_savings.client_id' => $client_id
+        ])
+        ->join('loan_account as loanAcct','loanAcct.loan_accountID = client_savings.loan_acountID','LEFT')
+        ->join('loan_product as loanprod','loanprod.loan_productID = loanAcct.loanTypeID','LEFT')
+        ->get('client_savings');
+           // print_r($this->db->last_query());die;
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+    return array();
+  }
+
 }

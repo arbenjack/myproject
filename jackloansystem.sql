@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2018 at 07:17 AM
+-- Generation Time: Aug 28, 2018 at 05:48 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -51,7 +51,29 @@ INSERT INTO `checklist` (`checklist_id`, `client_id`, `colateral`, `seminar`, `c
 (7, 8, 0, 0, 0, 0),
 (8, 9, 1, 1, 1, 1),
 (9, 6, 1, 1, 0, 0),
-(10, 4, 1, 1, 0, 0);
+(10, 4, 1, 1, 1, 1),
+(11, 3, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ci_sessions`
+--
+
+CREATE TABLE `ci_sessions` (
+  `id` varchar(128) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `data` blob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ci_sessions`
+--
+
+INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
+('2adrmnbqaupb1vdapqnifd6noaj70hmv', '::1', 1535391252, 0x5f5f63695f6c6173745f726567656e65726174657c693a313533353339313233323b6d795f617574687c613a333a7b733a373a22757365725f6964223b733a313a2231223b733a383a22757365726e616d65223b733a363a22717765717765223b733a353a22746f6b656e223b733a33323a226566653633393831323739323866316232653965663332303766623832363633223b7d),
+('spa8ar22nrkks06b0secvvjt41ubb36s', '::1', 1535471277, 0x5f5f63695f6c6173745f726567656e65726174657c693a313533353437313234363b6d795f617574687c613a333a7b733a373a22757365725f6964223b733a313a2231223b733a383a22757365726e616d65223b733a363a22717765717765223b733a353a22746f6b656e223b733a33323a226566653633393831323739323866316232653965663332303766623832363633223b7d);
 
 -- --------------------------------------------------------
 
@@ -149,6 +171,7 @@ CREATE TABLE `client_savings` (
   `savings_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL DEFAULT '0',
   `loan_acountID` int(11) NOT NULL DEFAULT '0',
+  `loan_productID` int(11) NOT NULL DEFAULT '0',
   `cbuOnly` int(1) NOT NULL DEFAULT '0',
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `amount_dr` decimal(19,4) NOT NULL DEFAULT '0.0000',
@@ -159,9 +182,9 @@ CREATE TABLE `client_savings` (
 -- Dumping data for table `client_savings`
 --
 
-INSERT INTO `client_savings` (`savings_id`, `client_id`, `loan_acountID`, `cbuOnly`, `dateCreated`, `amount_dr`, `amount_cr`) VALUES
-(1, 1, 1, 0, '2018-08-26 05:33:20', '0.0000', '300.0000'),
-(2, 9, 1, 0, '2018-08-26 05:41:25', '0.0000', '300.0000');
+INSERT INTO `client_savings` (`savings_id`, `client_id`, `loan_acountID`, `loan_productID`, `cbuOnly`, `dateCreated`, `amount_dr`, `amount_cr`) VALUES
+(1, 1, 1, 0, 0, '2018-08-28 22:05:38', '0.0000', '300.0000'),
+(4, 13, 2, 0, 0, '2018-08-28 22:18:46', '0.0000', '300.0000');
 
 -- --------------------------------------------------------
 
@@ -170,7 +193,7 @@ INSERT INTO `client_savings` (`savings_id`, `client_id`, `loan_acountID`, `cbuOn
 --
 
 CREATE TABLE `loan_account` (
-  `loan_accountID` bigint(44) NOT NULL,
+  `loan_accountID` bigint(20) NOT NULL,
   `loanTypeID` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `loanAmount` decimal(19,6) NOT NULL,
@@ -189,8 +212,8 @@ CREATE TABLE `loan_account` (
 --
 
 INSERT INTO `loan_account` (`loan_accountID`, `loanTypeID`, `client_id`, `loanAmount`, `termNumber`, `isPaid`, `intRate`, `loanStatus`, `dateCreated`, `isRelease`, `dateRelease`, `date_cutoff`) VALUES
-(1, 1, 1, '10000.000000', 3, 0, '3.7500', 'release', '2018-08-26 05:33:02', 1, '2018-08-25 23:33:20', '2018-11-25 23:33:20'),
-(2, 1, 9, '20000.000000', 6, 0, '7.5000', 'release', '2018-08-26 05:40:54', 1, '2018-08-25 23:41:25', '2019-02-25 23:41:25');
+(1, 3, 1, '10000.000000', 3, 1, '3.7500', 'fully_paid', '2018-08-28 22:05:03', 1, '2018-08-28 16:05:38', '2018-11-28 16:05:38'),
+(2, 1, 13, '50000.000000', 3, 0, '3.7500', 'release', '2018-08-28 22:18:28', 1, '2018-08-28 16:18:46', '2018-11-28 16:18:46');
 
 --
 -- Triggers `loan_account`
@@ -201,9 +224,13 @@ CREATE TRIGGER `autoSavings` AFTER UPDATE ON `loan_account` FOR EACH ROW BEGIN
 DECLARE P1 VARCHAR(50);
  SELECT set_value INTO P1 FROM settings WHERE settings_id=1;
  
-INSERT INTO client_savings(client_id,loan_acountID,amount_cr) VALUES(OLD.client_id,OLD.loanTypeID,P1);
+IF (NEW.isRelease = 1 AND OLD.isPaid = 0 AND OLD.loanStatus = 'applied') THEN
+   INSERT INTO client_savings(client_id,loan_acountID,amount_cr) 		     VALUES(OLD.client_id,OLD.loan_accountID,P1);
+   
+   INSERT INTO loan_payment(client_id,loanAcct_id,loanTypeID,amount_dr,amount_cr,isRelease) VALUES(OLD.client_id,OLD.loan_accountID,OLD.loanTypeID,(OLD.loanAmount + ((OLD.intRate * OLD.loanAmount) / 100)),0,1);
+   
+END IF;
 
-INSERT INTO loan_payment(client_id,loanAcct_id,loanTypeID,amount_dr,amount_cr,isRelease) VALUES(OLD.client_id,OLD.loan_accountID,OLD.loanTypeID,(OLD.loanAmount + ((OLD.intRate * OLD.loanAmount) / 100)),0,1);
 
 END
 $$
@@ -221,6 +248,8 @@ CREATE TABLE `loan_payment` (
   `loanAcct_id` int(11) NOT NULL,
   `loanTypeID` int(11) NOT NULL,
   `isRelease` int(1) NOT NULL DEFAULT '0',
+  `isPenalty` int(1) NOT NULL DEFAULT '0',
+  `isInterest` int(1) NOT NULL DEFAULT '0',
   `amount_dr` decimal(19,6) NOT NULL,
   `amount_cr` decimal(19,4) NOT NULL,
   `dateTransaction` datetime DEFAULT CURRENT_TIMESTAMP
@@ -230,12 +259,31 @@ CREATE TABLE `loan_payment` (
 -- Dumping data for table `loan_payment`
 --
 
-INSERT INTO `loan_payment` (`loan_paymentID`, `client_id`, `loanAcct_id`, `loanTypeID`, `isRelease`, `amount_dr`, `amount_cr`, `dateTransaction`) VALUES
-(1, 1, 1, 1, 1, '10375.300000', '0.0000', '2018-08-26 05:33:20'),
-(2, 1, 1, 1, 0, '0.000000', '1000.0000', '2018-08-26 05:38:29'),
-(3, 9, 2, 1, 1, '21500.000000', '0.0000', '2018-08-26 05:41:25'),
-(4, 9, 2, 1, 0, '0.000000', '10000.0000', '2018-08-26 10:47:45'),
-(6, 1, 1, 1, 0, '0.000000', '3000.0000', '2018-08-26 11:21:22');
+INSERT INTO `loan_payment` (`loan_paymentID`, `client_id`, `loanAcct_id`, `loanTypeID`, `isRelease`, `isPenalty`, `isInterest`, `amount_dr`, `amount_cr`, `dateTransaction`) VALUES
+(1, 1, 1, 3, 1, 0, 0, '10375.000000', '0.0000', '2018-08-28 22:05:38'),
+(4, 13, 2, 1, 1, 0, 0, '51875.000000', '0.0000', '2018-08-28 22:18:46'),
+(9, 1, 1, 3, 0, 0, 0, '0.000000', '2000.0000', '2018-08-28 23:25:54'),
+(11, 1, 1, 3, 0, 0, 0, '0.000000', '8375.0000', '2018-08-28 23:29:13');
+
+--
+-- Triggers `loan_payment`
+--
+DELIMITER $$
+CREATE TRIGGER `autoFullpaid` AFTER INSERT ON `loan_payment` FOR EACH ROW BEGIN
+
+DECLARE totalAmount DECIMAL(19,6);
+
+SELECT SUM(amount_dr - amount_cr) INTO totalAmount FROM loan_payment WHERE client_id=NEW.client_id AND loanAcct_id=NEW.loanAcct_id and loanTypeID=NEW.loanTypeID;
+
+IF(totalAmount = 0)
+THEN
+UPDATE loan_account SET isPaid=1, loanStatus='fully_paid' WHERE client_id=NEW.client_id AND loan_accountID=NEW.loanAcct_id and loanTypeID=NEW.loanTypeID;
+    
+END IF;
+
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -328,6 +376,12 @@ ALTER TABLE `checklist`
   ADD PRIMARY KEY (`checklist_id`);
 
 --
+-- Indexes for table `ci_sessions`
+--
+ALTER TABLE `ci_sessions`
+  ADD KEY `ci_sessions_timestamp` (`timestamp`);
+
+--
 -- Indexes for table `client`
 --
 ALTER TABLE `client`
@@ -383,7 +437,7 @@ ALTER TABLE `usertypes`
 -- AUTO_INCREMENT for table `checklist`
 --
 ALTER TABLE `checklist`
-  MODIFY `checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -395,25 +449,25 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT for table `client_savings`
 --
 ALTER TABLE `client_savings`
-  MODIFY `savings_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `savings_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `loan_account`
 --
 ALTER TABLE `loan_account`
-  MODIFY `loan_accountID` bigint(44) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `loan_accountID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `loan_payment`
 --
 ALTER TABLE `loan_payment`
-  MODIFY `loan_paymentID` bigint(44) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `loan_paymentID` bigint(44) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `loan_product`
 --
 ALTER TABLE `loan_product`
-  MODIFY `loan_productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `loan_productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -38,7 +38,10 @@
                 View/Edit
             </a>
             <a href="<?= base_url().'client/clientLoan/'.$list->ClientID ?>" class="btn btn-success">
-                Loan
+                Loans
+            </a>
+            <a href="<?= base_url().'client/clientCBUsavings/'.$list->ClientID ?>" class="btn btn-success">
+                Savings
             </a>
             <a href="<?= base_url().'client/createCheclist/'.$list->ClientID ?>" class="btn btn-warning">
                 Checklist
