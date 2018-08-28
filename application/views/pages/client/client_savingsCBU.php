@@ -47,7 +47,14 @@
                       <h3 class="box-title">Savings Information</h3>
                 </div>
 
-                
+                <div class="form-group">
+                <label style="font-size: 18;">
+                Loan Name: 
+                </label>
+                <label style="font-size: 18;float:right;width: 58%;">
+                <?= $loanAccountInfo->loanProduct_name ?>
+                </label>
+              </div>
 
 
 

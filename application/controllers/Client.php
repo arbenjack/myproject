@@ -190,9 +190,11 @@ $page_vars=array();
 		$page_vars = array();
 		if($loan_id > 0){
 			$page_vars['transList'] = $this->Client_model->getClientLoanTransactions($loan_id);
-		    $loanInfo = $this->Client_model->getClientLoanAccount($loan_id);
-			$page_vars['loanAccountInfo'] = $loanInfo;
+			$page_vars['loanAccountInfo'] = $this->Client_model->getClientLoanAccount($loan_id);
+			
+			$loanInfo = $this->Client_model->getClientLoanAccountIfRelease($loan_id);
 
+			if(!empty($loanInfo)){
 			$object = new stdClass();
 			$object->amount_dr = $loanInfo->loanAmount;
 			$object->amount_cr = 0;
@@ -210,6 +212,7 @@ $page_vars=array();
 			$object->isPenalty = 0;
 			$object->isInterest = 1;
 			$page_vars['transList'][] = $object;
+		}
 			/*
 			$page_vars['transList'][] = new Object([
 				'amount_dr' => $loanInfo->loanAmount,

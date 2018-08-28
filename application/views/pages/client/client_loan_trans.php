@@ -84,6 +84,7 @@
                 <?= round($loanAccountInfo->intRate,4) ?>%
                 </label>
               </div> 
+              <?php if($loanAccountInfo->isRelease == 1): ?>
               <div class="form-group">
                 <label style="font-size: 18;">
                 Total Due Amount : 
@@ -92,6 +93,7 @@
                 <?= number_format(round((($loanAccountInfo->loanAmount * $loanAccountInfo->intRate) /100) + $loanAccountInfo->loanAmount,6),2) ?>
                 </label>
               </div>
+              <?php endif; ?>
         
            <div class="form-group">
                 <label style="font-size: 18;">

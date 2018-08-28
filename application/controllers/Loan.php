@@ -78,6 +78,10 @@ class Loan extends MY_Controller {
 				'termNumber' => $termNumber,
 				'loanStatus' => 'applied'
 				]);
+
+				message('success', 'Succesfully apply loan.');
+				redirect('loan/loanApplication');
+				/*
 				if($insert){
 					message('success', 'Succesfully apply loan.');
 					redirect('loan/loanApplication');
@@ -85,6 +89,7 @@ class Loan extends MY_Controller {
 					message('danger', 'failed to apply loan.');
 					redirect('loan/loanApplication');
 				}
+				*/
 		   }else{
 			message('danger', 'already applied application for loan.');
 			redirect('loan/loanApplication');
@@ -153,7 +158,7 @@ class Loan extends MY_Controller {
 			
 				$date = new DateTime();
 				$date->add(new DateInterval('P'.$list->termNumber.'M'));				
-				$update =	$this->Common_model->update('loan_account',[
+				$update = $this->Common_model->update('loan_account',[
 					'loanStatus' => 'release',
 					'isRelease' => 1,
 					'dateRelease' => date('Y-m-d H:i:s'),
@@ -161,11 +166,11 @@ class Loan extends MY_Controller {
 				],[
 					'loan_accountID' => $list->loan_accountID
 				]);
-			   if($update){
-					message('success', 'Succesfully create releases.');
-					redirect('loan/loanRelease');
-				}
-				
+
+			}
+			if(!empty($update)){
+				message('success', 'Succesfully create releases.');
+				redirect('loan/loanRelease');
 			}
 		}else{
 			message('danger', 'failed to create releases.');
