@@ -69,6 +69,8 @@
                         echo '<label STYLE="font-size: 18;color: blue;"> RELEASE </label>';
                     }else if($list->loanStatus == 'fully_paid'){
                         echo '<label STYLE="font-size: 18;color: green;"> FULLY PAID </label>';
+                    }else if($list->loanStatus == 'canceled'){
+                        echo '<label STYLE="font-size: 18;color: red;"> CANCELED </label>';
                     }
                     ?>
               </td>

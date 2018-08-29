@@ -20,13 +20,17 @@ class Loan_model extends CI_Model {
 
     function getIfAlreadyApplied($loanType_ID = 0, $client_id = 0,$status = '', $isPaid = 0, $isRelease = 0){
         $query = $this->db->select()
-            ->where([
-                'loanTypeID' => $loanType_ID,
-                'client_id	' => $client_id,
-                'loanStatus' => $status,
+            ->where('loanTypeID' , $loanType_ID)
+            ->where('client_id	' , $client_id)
+            ->where('isPaid' , $isPaid)
+            ->where_in('loanStatus',array($status,'release'))
+            //->where('loanStatus', $status)
+            //->or_where('loanStatus', 'release')
+         /*
+                //'loanStatus' => $status,
                 'isPaid' => $isPaid,
-                'isRelease' => $isRelease
-            ])
+                //'isRelease' => $isRelease
+         */
             ->get('loan_account');
         if($query->num_rows() > 0){
             return $query->result();

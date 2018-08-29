@@ -53,6 +53,7 @@ class Loan extends MY_Controller {
 				0,
 				0
 			);
+			//print_r($isHave);die;
 			/** this is for getting checklist of client */
 			//print_r($isHave);die;
 			$isChecklist = $this->Checklist_model->getIfClientCheckAllList($this->input->post('client'));
@@ -105,6 +106,22 @@ class Loan extends MY_Controller {
 		],$page_vars));
     }
     
+	function cancelApplicationLoan($loan_id = 0){
+		if($loan_id > 0){
+			$update = $this->Common_model->update('loan_account',[
+				'loanStatus' => 'canceled'
+			],[
+				'loan_accountID' => $loan_id
+			]);
+			if($update){
+				message('success', 'Succesfully Canceled loan application.');
+				redirect('loan/loanApplication');
+			}else{
+			message('danger', 'Error to cancel loan application.');
+			redirect('loan/loanApplication');
+		   }
+		}
+	}
 
 	function loanRelease(){
 		$page_vars = array();

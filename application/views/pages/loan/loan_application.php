@@ -38,7 +38,7 @@
         <td> <?= strtoupper($list->loanStatus) ?> </td>
         <td> 
     
-            <a class="btn btn-warning">
+            <a href="<?= base_url().'Loan/cancelApplicationLoan/'.$list->loan_accountID ?>" class="btn btn-warning">
                 Cancel
             </a>
             <a href="<?= base_url().'client/createCheclist/'.$list->ClientID ?>" class="btn btn-default">
