@@ -137,4 +137,15 @@ return array();
     return array();
   }
 
+  function getSumofSavings($client_id = 0){
+    $query = $this->db->select("SUM(amount_cr - amount_dr) as totalBalance")
+        ->where([
+            'client_id' => $client_id
+        ])->get('client_savings');
+        if($query->num_rows()){
+           return $query->row()->totalBalance;
+        }
+    return 0;
+  }
+
 }

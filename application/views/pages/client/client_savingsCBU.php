@@ -44,22 +44,39 @@
              <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
                  <div class="box-header with-border">
                       <h3 class="box-title"> </h3>
-                      <h3 class="box-title">Savings Information</h3>
+                      <h3 class="box-title">CBU Savings Information</h3>
                 </div>
-
-                <div class="form-group">
+        <div class="form-group">
+         <?=show_alerts(@$alert)?>
+      </div>
+        <?= form_open() ?>
+              <div class="form-group">
                 <label style="font-size: 18;">
-                Loan Name: 
+                Total Balance: 
                 </label>
-                <label style="font-size: 18;float:right;width: 58%;">
-                <?= $loanAccountInfo->loanProduct_name ?>
+                <label style="font-size: 18;float:right;width: 40%;">
+                <?= round($TotalBalance,4)?>
                 </label>
               </div>
 
+                <div class="form-group">
+                <label style="font-size: 18;">
+                Withdrawable Amount: 
+                </label>
+                <label style="font-size: 18;float:right;width: 40%;">
+                <?= round($TotalBalance,4)?>
+                </label>
+              </div>
 
-
+                <div class="form-group">
+                <label style="font-size: 18;">
+                Input Withdraw Cash
+                </label>
+                <input type="number" step=".01" class="withdraw" name="withdraw" value="<?=set_value('withdraw')?>">
+              </div>
+              <button type="submit" class="btn btn-primary">WITHDRAW</button>
              </div>
-
+             <?= form_close() ?>
           <!-- /.box -->
                   </div>
               </div>

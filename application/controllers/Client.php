@@ -238,7 +238,31 @@ $page_vars=array();
 		if($client_id > 0){
 			$savingsList = $this->Client_model->getClientSavings($client_id);
 			$page_vars['savingsList'] = $savingsList;
+			$page_vars['TotalBalance'] = $this->Client_model->getSumofSavings($client_id);
 			//print_r($page_vars);die;
+			$this->form_validation->set_rules('withdraw','Amount of Withdrawal','required|numeric');
+			if($this->form_validation->run()){
+				
+				if($this->input->post('withdraw') > 0){
+				  if($this->input->post('withdraw') <= $page_vars['TotalBalance']){
+					$insert = $this->Common_model->insert('client_savings',[
+						'client_id' => $client_id,
+						'amount_dr' => $this->input->post('withdraw')
+					]);
+					if($insert){
+					message('success', 'Succesfully withdraw.');
+					redirect('client/clientCBUsavings/'.$client_id);	
+					}
+				 }else{
+					message('danger', 'failed to withdraw, the amount of withdrawable balance is not enough.');
+					redirect('client/clientCBUsavings/'.$client_id);
+				 }
+				}else{
+					//client/clientCBUsavings/
+				message('danger', 'failed to withdraw, zero value of withdrawal.');
+				redirect('client/clientCBUsavings/'.$client_id);
+				}
+			}
 			$this->load->view('template/adminlte',array_merge([
 				'page_view' => 'pages/client/client_savingsCBU',
 				'page_tittle' => 'Client CBU Savings',
