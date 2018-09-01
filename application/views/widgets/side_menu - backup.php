@@ -15,6 +15,7 @@
         -->
         </div>
         <div class="pull-left info">
+         <h1>234</h1>
           <p><?= $this->session->userdata('my_auth')['username'] ?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
