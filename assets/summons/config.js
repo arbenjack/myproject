@@ -1,0 +1,1 @@
+IDRViewer.config = {"pagecount":1,"title":"________________________________________________________________________","author":"Dennis","fileName":"a_10_summons.pdf","bounds":[[934,1429]],"bookmarks":[],"thumbnailType":"jpg","pageType":"html","pageLabels":[]};
