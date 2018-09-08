@@ -11,7 +11,8 @@
   	<script type="text/javascript">
   		var App = <?= json_encode(array_merge(['siteurl' => site_url()], 
         (isset($js_vars)? $js_vars : array())
-		)); ?>;
+    ,['smsurl' => $this->config->item('sms_url')])); ?>;
+    
   	</script>
 	<?php $this->load->view('common/style');?>
 </head>

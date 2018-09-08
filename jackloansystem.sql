@@ -153,10 +153,17 @@ INSERT INTO `client` (`ClientID`, `GroupCode`, `ClientCode`, `Since`, `SinceGrou
 -- Triggers `client`
 --
 DELIMITER $$
+<<<<<<< HEAD
 CREATE TRIGGER `insert_into_bankaccounts` AFTER INSERT ON `client` FOR EACH ROW BEGIN
 
 	
 
+=======
+CREATE TRIGGER `insert_into_bankaccounts` AFTER INSERT ON `client` FOR EACH ROW BEGIN
+
+	
+
+>>>>>>> cbecc4a03762f23c60911f401710f34b4dd53689
 END
 $$
 DELIMITER ;
@@ -219,6 +226,7 @@ INSERT INTO `loan_account` (`loan_accountID`, `loanTypeID`, `client_id`, `loanAm
 -- Triggers `loan_account`
 --
 DELIMITER $$
+<<<<<<< HEAD
 CREATE TRIGGER `autoSavings` AFTER UPDATE ON `loan_account` FOR EACH ROW BEGIN
 
 DECLARE P1 VARCHAR(50);
@@ -232,6 +240,21 @@ IF (NEW.isRelease = 1 AND OLD.isPaid = 0 AND OLD.loanStatus = 'applied') THEN
 END IF;
 
 
+=======
+CREATE TRIGGER `autoSavings` AFTER UPDATE ON `loan_account` FOR EACH ROW BEGIN
+
+DECLARE P1 VARCHAR(50);
+ SELECT set_value INTO P1 FROM settings WHERE settings_id=1;
+ 
+IF (NEW.isRelease = 1 AND OLD.isPaid = 0 AND OLD.loanStatus = 'applied') THEN
+   INSERT INTO client_savings(client_id,loan_acountID,amount_cr) 		     VALUES(OLD.client_id,OLD.loan_accountID,P1);
+   
+   INSERT INTO loan_payment(client_id,loanAcct_id,loanTypeID,amount_dr,amount_cr,isRelease) VALUES(OLD.client_id,OLD.loan_accountID,OLD.loanTypeID,(OLD.loanAmount + ((OLD.intRate * OLD.loanAmount) / 100)),0,1);
+   
+END IF;
+
+
+>>>>>>> cbecc4a03762f23c60911f401710f34b4dd53689
 END
 $$
 DELIMITER ;
@@ -269,6 +292,7 @@ INSERT INTO `loan_payment` (`loan_paymentID`, `client_id`, `loanAcct_id`, `loanT
 -- Triggers `loan_payment`
 --
 DELIMITER $$
+<<<<<<< HEAD
 CREATE TRIGGER `autoFullpaid` AFTER INSERT ON `loan_payment` FOR EACH ROW BEGIN
 
 DECLARE totalAmount DECIMAL(19,6);
@@ -281,6 +305,20 @@ UPDATE loan_account SET isPaid=1, loanStatus='fully_paid' WHERE client_id=NEW.cl
     
 END IF;
 
+=======
+CREATE TRIGGER `autoFullpaid` AFTER INSERT ON `loan_payment` FOR EACH ROW BEGIN
+
+DECLARE totalAmount DECIMAL(19,6);
+
+SELECT SUM(amount_dr - amount_cr) INTO totalAmount FROM loan_payment WHERE client_id=NEW.client_id AND loanAcct_id=NEW.loanAcct_id and loanTypeID=NEW.loanTypeID;
+
+IF(totalAmount = 0)
+THEN
+UPDATE loan_account SET isPaid=1, loanStatus='fully_paid' WHERE client_id=NEW.client_id AND loan_accountID=NEW.loanAcct_id and loanTypeID=NEW.loanTypeID;
+    
+END IF;
+
+>>>>>>> cbecc4a03762f23c60911f401710f34b4dd53689
 END
 $$
 DELIMITER ;

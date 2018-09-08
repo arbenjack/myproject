@@ -1,0 +1,37 @@
+2018-09-04 16:54:17
+gammu sendsms TEXT 09386393750 -textutf8 "Hi 1"
+Sending SMS 1/1....waiting for network answer..OK, message reference=7
+
+
+gammu sendsms TEXT 09386393750 -textutf8 "Hi 2"
+Sending SMS 1/1....waiting for network answer..OK, message reference=8
+
+
+gammu sendsms TEXT 09386393750 -textutf8 "Hi 3"
+Sending SMS 1/1....waiting for network answer..OK, message reference=9
+
+
+2018-09-04 17:35:44
+gammu sendsms TEXT 09386393750 -textutf8 "DIAZ, KAREN. You are successfully applied Agricultural loan 
+					application with the duration of 6months and the amount of Php50000, Thank you."
+Sending SMS 1/1....waiting for network answer..OK, message reference=11
+
+
+2018-09-04 17:37:20
+gammu sendsms TEXT 09386393750 -textutf8 "DIAZ, KAREN. You are successfully applied Agricultural loan application with the duration of 6months and the amount of Php10000, Thank you."
+Sending SMS 1/1....waiting for network answer..OK, message reference=12
+
+
+2018-09-04 18:26:59
+gammu sendsms TEXT 09386393750 -textutf8 "Hi 1"
+Sending SMS 1/1....waiting for network answer..OK, message reference=13
+
+
+gammu sendsms TEXT 09386393750 -textutf8 "Hi 2"
+Sending SMS 1/1....waiting for network answer..OK, message reference=14
+
+
+gammu sendsms TEXT 09386393750 -textutf8 "Hi 3"
+Sending SMS 1/1....waiting for network answer..OK, message reference=15
+
+

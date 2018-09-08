@@ -1,0 +1,41 @@
+BEGIN
+
+DECLARE totalAmount DECIMAL(19,6);
+DECLARE totalDue DECIMAL(19,16);
+
+SELECT SUM(amount_dr - amount_cr) INTO totalAmount FROM loan_payment WHERE client_id=NEW.client_id AND loanAcct_id=NEW.loanAcct_id and loanTypeID=NEW.loanTypeID;
+
+SELECT SUM(loanAmount + ((loanAmount * intRate) / 100)) INTO totalDue FROM loan_account WHERE loan_accountID=NEW.loanAcct_id AND loanTypeID=NEW.loanTypeID AND client_id=NEW.client_id;
+
+IF(totalDue = totalAmount)
+THEN
+UPDATE loan_account SET isPaid=1, loanStatus='fully_paid';
+    
+END IF;
+
+END
+
+BEGIN
+
+DECLARE totalAmount DECIMAL(19,6);
+
+SELECT SUM(amount_dr - amount_cr) INTO totalAmount FROM loan_payment WHERE client_id=NEW.client_id AND loanAcct_id=NEW.loanAcct_id and loanTypeID=NEW.loanTypeID;
+
+IF(totalAmount = 0)
+THEN
+UPDATE loan_account SET isPaid=1, loanStatus='fully_paid' WHERE client_id=NEW.client_id AND loan_accountID=NEW.loanAcct_id and loanTypeID=NEW.loanTypeID;
+    
+END IF;
+
+END
+
+
+
+TRUNCATE loan_account;
+TRUNCATE loanaccount_seq;
+TRUNCATE loan_payment;
+TRUNCATE client_savings;
+TRUNCATE checklist;
+
+
+

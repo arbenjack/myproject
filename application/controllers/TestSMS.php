@@ -9,13 +9,60 @@ class TestSMS extends MY_Controller {
 		if (!$this->session->userdata('my_auth')) {
 			//redirect('app/login');
 		}
-        */
+        */    
+        $this->load->library('Smslib');
+        
 	}
-
     function index(){
+       // $cmd = sprintf('gammu sendsms TEXT %s -textutf8 %s', 13213213, escapeshellarg('asdasd and'));
+        //print_r($cmd);die;
+        $arrayToSend[] = [
+            'mobileNumber' => '09386393750',
+            'textSms' => 'months and the amount of Php, Thank you. 1'
+        ];
+        $arrayToSend[] = [
+            'mobileNumber' => '09386393750',
+            'textSms' => 'months and the amount of Php, Thank you. 2'
+        ];
+        
+       // print_r($arrayToSend);die;
+        /*
+        $arrayToSend[] = [
+            'mobileNumber' => '09386393750',
+            'textSms' => 'months and the amount of Php, Thank you. 3'
+        ];*/
+       //$this->loadJS('custom/sensSMS.js',['data' => array('dada' => 'asdsagdgfd')]);
+        $this->loadJS('custom/sensSMS.js',['data' => json_encode(array('toSendData' =>$arrayToSend))]);
+
+        $this->load->view('template/adminlte',array_merge([
+			'page_view' => 'pages/testSMS',
+			'page_tittle' => 'test',
+			'page_webTittle' => 'test',
+		],[]));
+       // $this->load->view('pages/testSMS');   
+    }
+    function index_back(){
+        $dataArray[0] = array(
+            'mobileNumber' => '09386393750',
+            'textSms' => 'Hi 1'
+        );
+        $dataArray[1] = array(
+            'mobileNumber' => '09386393750',
+            'textSms' => 'Hi 2'
+        );
+        $dataArray[2] = array(
+            'mobileNumber' => '09386393750',
+            'textSms' => 'Hi 3'
+        );
+        //$this->smslib->sendSms($dataArray);
+    $this->smslib->testSend($dataArray);
+
         //$this->SendSMS('https://sample.smshosts.com/', 'username', 'password', '+44999999999', 'Test Message');
     // $this->load->view('pages/testSMS');   
        // SendSMS('https://sample.smshosts.com/', 'username', 'password', '+44999999999', 'Test Message');
+    }
+    function sensMessage(){
+       // $this->Smslib->sendSms(array( 'asd' => 1 ));
     }
     function SendSMS ($hostUrl, $username, $password, $phoneNoRecip, $msgText,
                   $n1 = NULL, $v1 = NULL, $n2 = NULL, $v2 = NULL, $n3 = NULL, $v3 = NULL, 

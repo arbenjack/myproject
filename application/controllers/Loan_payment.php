@@ -18,6 +18,12 @@ class Loan_payment extends MY_Controller {
 
     function viewloanPayment(){
         $page_vars = array();
+        	/** for sms flash sending */
+		$FosmsFlash = $this->session->flashdata('smsDataFlash');
+		if(!empty($FosmsFlash)){
+			$this->loadJS('custom/sensSMS.js',['data' => json_encode(array('toSendData' => $FosmsFlash))]);
+        }else{}
+            
         $this->loadJS('custom/loan_payment.js');
 
         $allCLient = $this->Client_model->getListOfclients();
@@ -83,7 +89,17 @@ class Loan_payment extends MY_Controller {
                     'amount_cr' => $this->input->post('collection')[$key]
                    ]);
                 }
+
+                $clientInfo = $this->Client_model->getClientInfo($this->input->post('clientId')[$key]);
+                $loanProd = $this->LoanProduct_model->getLoanProduct($this->input->post('loanAcctType')[$key]);
+                $paymentsBalance = $this->Loan_model->getSumOfpaymentByFilter($this->input->post('clientId')[$key],$this->input->post('loanAcctType')[$key], $key);
+				$arrayToSend[] = [
+					'mobileNumber' => $clientInfo->HomeAddressContact,
+					'textSms' => $clientInfo->LastName.', '.$clientInfo->FirstName.'. You are successfully pay on '.$loanProd->loanProduct_name.' loan with the amount of Php'.number_format(round($this->input->post('collection')[$key],4),2).', you only have Php'.number_format(round($paymentsBalance,4),2).' Balance left to pay, Thank you.'
+				];
             }
+
+            $this->session->set_flashdata('smsDataFlash', $arrayToSend);
 
             if(!empty($inserted)){
                 message('success', 'Succesfully created payments.');

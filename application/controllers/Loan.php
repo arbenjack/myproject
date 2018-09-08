@@ -19,9 +19,13 @@ class Loan extends MY_Controller {
     function loanApplication(){
         $page_vars = array();
 		//$this->loadJS('custom/clients.js');
-		//$page_vars['listClients'] = $this->Client_model->getListOfclients();
-        $page_vars['pendingList'] = $this->Loan_model->getLoanAppList();
-		//print_r($page_vars['pendingList']);die;
+		$FosmsFlash = $this->session->flashdata('smsDataFlash');
+		if(!empty($FosmsFlash)){
+			$this->loadJS('custom/sensSMS.js',['data' => json_encode(array('toSendData' => $FosmsFlash))]);
+		}else{}
+
+		$page_vars['pendingList'] = $this->Loan_model->getLoanAppList();
+		
 		$allCLient = $this->Client_model->getListOfclients();
 		$clients = array();
 		if (!empty($allCLient)) {
@@ -80,6 +84,15 @@ class Loan extends MY_Controller {
 				'loanStatus' => 'applied'
 				]);
 
+				$clientInfo = $this->Client_model->getClientInfo($this->input->post('client'));
+				$loanProd = $this->LoanProduct_model->getLoanProduct($this->input->post('loanproduct'));
+				$arrayToSend[] = [
+					'mobileNumber' => $clientInfo->HomeAddressContact,
+					'textSms' => $clientInfo->LastName.', '.$clientInfo->FirstName.'. You are successfully applied '.$loanProd->loanProduct_name.' loan application with the duration of '.$termNumber.'months and the amount of Php'.number_format(round($this->input->post('amount'),4),2).', Thank you.'
+				];
+				
+				$this->session->set_flashdata('smsDataFlash', $arrayToSend);
+
 				message('success', 'Succesfully apply loan.');
 				redirect('loan/loanApplication');
 				/*
@@ -124,6 +137,12 @@ class Loan extends MY_Controller {
 	}
 
 	function loanRelease(){
+		/** for sms flash sending */
+		$FosmsFlash = $this->session->flashdata('smsDataFlash');
+		if(!empty($FosmsFlash)){
+			$this->loadJS('custom/sensSMS.js',['data' => json_encode(array('toSendData' => $FosmsFlash))]);
+		}else{}
+
 		$page_vars = array();
 		$allLoanProduct = $this->LoanProduct_model->getLonProduct();
 		$product = array();
@@ -169,10 +188,13 @@ class Loan extends MY_Controller {
 	// print_r($this->input->post('releases'));die;
 		if(!empty($this->input->post('releases'))){
 			$releasePost = $this->input->post('releases');
+			
 			$ListLoanAcct = $this->Loan_model->getAllLoanReleases($releasePost);
+
+			$arrayToSend = [];
 			foreach($ListLoanAcct as $list){
 				//$list->termNumber;
-			
+				
 				$date = new DateTime();
 				$date->add(new DateInterval('P'.$list->termNumber.'M'));				
 				$update = $this->Common_model->update('loan_account',[
@@ -184,7 +206,16 @@ class Loan extends MY_Controller {
 					'loan_accountID' => $list->loan_accountID
 				]);
 
+				$clientInfo = $this->Client_model->getClientInfo($list->client_id);
+				$loanProd = $this->LoanProduct_model->getLoanProduct($list->loanTypeID);
+				$arrayToSend[] = [
+					'mobileNumber' => $clientInfo->HomeAddressContact,
+					'textSms' => $clientInfo->LastName.', '.$clientInfo->FirstName.'. You are successfully released '.$loanProd->loanProduct_name.' loan with the duration of '.$list->termNumber.'months and the amount of Php'.number_format(round($list->loanAmount,4),2).', Your cuttoff date is on '.$date->format('Y/m/d').' please pay before the deadline date to avoid increase of interest, Thank you.'
+				];
 			}
+
+			$this->session->set_flashdata('smsDataFlash', $arrayToSend);
+
 			if(!empty($update)){
 				message('success', 'Succesfully create releases.');
 				redirect('loan/loanRelease');
@@ -196,3 +227,16 @@ class Loan extends MY_Controller {
 	}
 
 }
+
+
+				/** for sms */
+				/*
+				$this->load->library('Smslib');
+				$clientInfo = $this->Client_model->getClientInfo($this->input->post('client'));
+				$loanProd = $this->LoanProduct_model->getLoanProduct($this->input->post('loanproduct'));
+				$arrayToSend[0] = [
+					'mobileNumber' => $clientInfo->HomeAddressContact,
+					'textSms' => $clientInfo->LastName.', '.$clientInfo->FirstName.'. You are successfully applied '.$loanProd->loanProduct_name.' loan application with the duration of '.$termNumber.'months and the amount of Php'.round($this->input->post('amount'),4).', Thank you.'
+				];
+				$this->smslib->testSend($arrayToSend);
+				*/

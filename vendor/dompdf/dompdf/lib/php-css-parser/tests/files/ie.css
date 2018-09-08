@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 .nav-thumb-wrapper:hover img, a.activeSlide img {
 	filter: alpha(opacity=100);
 	-moz-opacity: 1;
 	-khtml-opacity: 1;
 	opacity: 1;
 }	
+=======
+.nav-thumb-wrapper:hover img, a.activeSlide img {
+	filter: alpha(opacity=100);
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	opacity: 1;
+}	
+>>>>>>> cbecc4a03762f23c60911f401710f34b4dd53689

@@ -22,3 +22,6 @@
 
 <!-- Main javascript -->
 <script src="<?=base_url()?>assets/main.js"></script>
+
+<!-- socket -->
+<script src="<?=base_url()?>assets/custom/dist/socket.io.js"></script>

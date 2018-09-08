@@ -61,7 +61,7 @@
                 <tr>
                 <td> <input type="" hidden name="clientId[<?= $list->loan_accountID ?>]" value="<?= $list->ClientID ?>"><?= $list->LastName.", ".$list->FirstName." ".$list->MiddleName ?> </td>
                 <td> <input type="" hidden name="loanAcctType[<?= $list->loan_accountID ?>]" value="<?= $list->loan_productID ?>"> <?= $list->loanProduct_name ?> </td>
-                <td class="tdClassPaymtAmmt"> <input type="" class="paymentAmount" hidden name="loanAmount[<?= $list->loan_accountID ?>]" value="<?= round($list->paymentDue,4) ?>"> <?= round($list->paymentDue,4) ?> </td>
+                <td class="tdClassPaymtAmmt"> <input type="" class="paymentAmount" hidden name="loanAmount[<?= $list->loan_accountID ?>]" value="<?= round($list->paymentDue,4) ?>"> <?= number_format(round($list->paymentDue,4),2) ?> </td>
                 <td> <input type="number" step=".01" class="paymentCollection" name="collection[<?= $list->loan_accountID ?>]"> </td>
                 </tr>
                 <?php 
