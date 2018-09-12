@@ -25,7 +25,7 @@ class TestSMS extends MY_Controller {
             'textSms' => 'months and the amount of Php, Thank you. 2'
         ];
         
-       // print_r($arrayToSend);die;
+       //  print_r($arrayToSend);die;
         /*
         $arrayToSend[] = [
             'mobileNumber' => '09386393750',

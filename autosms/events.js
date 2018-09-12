@@ -41,7 +41,7 @@ module.exports = function(io, exec, escapeshellarg){
 				forLoop = forLoop+1;
 			 }
 			 console.log(stringToSend);
-			 
+	
 		exec(stringToSend, (err, stdout, stderr) => {
 			if (err) {
 				// node couldn't execute the command
@@ -53,6 +53,7 @@ module.exports = function(io, exec, escapeshellarg){
 			  console.log(`stdout: ${stdout}`);
 			  console.log(`stderr: ${stderr}`);
 			  }); 
+			  
 		/*
 		shell.series(arrays, function(err){
 		   console.log('executed many commands in a row'); 

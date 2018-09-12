@@ -63,7 +63,7 @@ class Loan_model extends CI_Model {
            }
          return array();
     }
-
+    
     function getAllLoanReleases($whereArray  = array()){
         $query = $this->db->select()
             ->where_in('loan_accountID',$whereArray)

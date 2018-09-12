@@ -62,7 +62,7 @@
             -->
           </ul>
         </li>
-        <li class="treeview">
+        <li class="treeview <?php if($sideBarVarClass == 'reports')echo 'active';?>">
           <a href="#">
             <i class="fa fa-files-o "></i> <span>Reports</span>
             
@@ -72,7 +72,7 @@
            
           </a>
           <ul class="treeview-menu">
-            <li class=""><a href=""><i class="fa fa-circle-o"></i> Past Due Reports </a></li>
+            <li class="<?php if($sideBarVarClass.'/'.$sideBarVarMethod == 'reports/pastdue')echo 'active';?>"><a href="<?= base_url().'reports/pastdue' ?>"><i class="fa fa-circle-o"></i> Past Due Reports </a></li>
             <li class=""><a href=""><i class="fa fa-circle-o"></i> Payment Reports </a></li>
             <li class=""><a href=""><i class="fa fa-circle-o"></i> Savings CBU Report </a></li>
             <!--
