@@ -15,6 +15,11 @@ class Reports extends MY_Controller {
     }
 
     function pastdue(){
+        $FosmsFlash = $this->session->flashdata('smsDataFlash');
+		if(!empty($FosmsFlash)){
+			$this->loadJS('custom/sensSMS.js',['data' => json_encode(array('toSendData' => $FosmsFlash))]);
+        }else{}
+            
         $this->loadJS('custom/reportpass.js');
         $page_vars = array();
 
@@ -65,11 +70,58 @@ class Reports extends MY_Controller {
     function setPenalty($loadid = 0){
         $page_vars = array();
         
+        $loan = $this->Report_model->getLoanAccount($loadid);
+        $page_vars['loanInfo'] = $loan;
+        $page_vars['totalPayment'] = $this->Report_model->getTotalPayment($loan->client_id,$loan->loanTypeID,$loan->loan_accountID);
+        $page_vars['totalPaid'] = $this->Report_model->getTotalPaid($loan->client_id,$loan->loanTypeID,$loan->loan_accountID);
+
         $this->load->view('template/adminlte',array_merge([
 			'page_view' => 'pages/reports/penaltydue',
 			'page_tittle' => 'Setting a Penalty',
 			'page_webTittle' => 'Setting a Penalty',
 		],$page_vars));
+    }
+    function doPenalty($loadid = 0){
+        if($loadid > 0){
+            $loan = $this->Report_model->getLoanAccount($loadid);
+            $balance = $this->Report_model->getTotalPayment($loan->client_id,$loan->loanTypeID,$loan->loan_accountID);
+            $date = new DateTime($loan->date_cutoff);
+            $date->add(new DateInterval('P1M'));	
+            $this->Common_model->insert('loan_payment',[
+                    'client_id' => $loan->client_id,
+                    'loanAcct_id' => $loan->loan_accountID,
+                    'loanTypeID' => $loan->loanTypeID,
+                    'isPenalty' => 1,
+                    'isInterest' => 1,
+                    'amount_dr' => ($balance * 3.75) / 100
+            ]);
+          
+            $update = $this->Common_model->update('loan_account',[
+                'date_cutoff' => $date->format('Y-m-d H:i:s')
+            ],[
+                'loan_accountID' => $loan->loan_accountID
+            ]);
+            
+            $arrayToSend[] = [
+                'mobileNumber' => $loan->HomeAddressContact,
+                'textSms' => $loan->LastName.', '.$loan->FirstName.'. You have been penalize on your '.$loanProd->loanProduct_name.' loan with the amount of '.round((($balance * 3.75) / 100),2).' cause of unpaid due...'
+            ];
+            $arrayToSend[] = [
+                'mobileNumber' => $loan->HomeAddressContact,
+                'textSms' => 'Your currently total payment is now Php'+ round($balance + (($balance * 3.75) / 100),2).' that have interest rate of 3.75% and will be due on '.$date->format('Y-m-d H:i:s').'.'
+            ];
+            $this->session->set_flashdata('smsDataFlash', $arrayToSend);
+
+            if($update){
+              message('success', 'Succesfully Applied penalty of '.strtoupper($loan->LastName.' '.$loan->FirstName));
+              redirect('reports/pastdue');
+            }
+            //message('success', 'Succesfully Applied penalty of ');
+            //redirect('reports/pastdue');
+        }else{
+           //message('danger', 'failed to add Client.');
+            //redirect('reports/setPenalty/'.$loadid);
+        }
     }
 
     function sendSMS(){
@@ -77,14 +129,12 @@ class Reports extends MY_Controller {
        $loanAccount = $this->input->post('loanAccount');
        $loan = $this->Report_model->getLoanAccount($loanAccount);
        $paymentsBalance = $this->Loan_model->getSumOfpaymentByFilter($loan->client_id,$loan->loanTypeID, $loanAccount);
-       //print_r($loan);
        $arrayToSend[] = [
         'mobileNumber' => $loan->HomeAddressContact,
         'name' => $loan->LastName.', '.$loan->FirstName,
-        'textSms' => $loan->LastName.', '.$loan->FirstName.'. You are are warn to pay '.$loan->loanProduct_name.' loan account with the balance amount of Php'.number_format(round($paymentsBalance,4),2).' before due date to avoid penalty.'
+        'textSms' => $loan->LastName.', '.$loan->FirstName.'. You are warn to pay '.$loan->loanProduct_name.' loan account with the balance amount of Php'.number_format(round($paymentsBalance,4),2).' before '.$loan->date_cutoff.' due date to avoid penalty.'
     ];
-    //print_r($arrayToSend);
-    //echo json_encode(array('data' => array('toSendData' => $arrayToSend),'response' => 1));  
+  
     echo json_encode(array('data' => array('toSendData' => $arrayToSend),'response' => 1));
     }
 

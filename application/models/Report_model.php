@@ -22,7 +22,7 @@ class Report_model extends CI_Model {
             $this->db->join('client as cl','cl.ClientID = loan_account.client_id','LEFT');
             $this->db->join('loan_product as laonp','laonp.loan_productID = loan_account.loanTypeID','LEFT');
             $query = $this->db->get();
-        //print_r($this->db->last_query());
+      // print_r($this->db->last_query());
         if($query->num_rows() > 0){
             return $query->result();
         }
@@ -43,4 +43,35 @@ class Report_model extends CI_Model {
         }
        return array();
     }
+
+   function getTotalPayment($client_id = 0, $loanTypeID = 0, $loan_accountID = 0){
+    $query = $this->db->select("SUM(amount_dr - amount_cr) as sumPayments")
+        ->where([
+            'client_id' => $client_id,
+            'loanTypeID' => $loanTypeID,
+            'loanAcct_id' => $loan_accountID,
+            //'isRelease' => 0
+        ])
+        ->get('loan_payment');
+    if($query->num_rows() > 0){
+        return $query->row()->sumPayments == null? 0:$query->row()->sumPayments;
+        }
+   return 0;
+    }
+
+    function getTotalPaid($client_id = 0, $loanTypeID = 0, $loan_accountID = 0){
+        $query = $this->db->select("SUM(amount_cr) as sumPaid")
+            ->where([
+                'client_id' => $client_id,
+                'loanTypeID' => $loanTypeID,
+                'loanAcct_id' => $loan_accountID,
+                //'isRelease' => 0
+            ])
+            ->get('loan_payment');
+        if($query->num_rows() > 0){
+            return $query->row()->sumPaid == null? 0:$query->row()->sumPaid;
+            }
+       return 0;
+        }
+
 }
