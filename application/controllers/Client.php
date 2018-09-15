@@ -142,7 +142,7 @@ class Client extends MY_Controller {
 	}
 
 function update($id){
-	//print_r($client_id);die();
+	//print_r($this->input->post());die();
 $page_vars=array();
 	$clientInfo = $this->Client_model->getClientInfo($id);
 	//print_r($clientInfo);die();
@@ -160,7 +160,7 @@ $page_vars=array();
 						'FirstName' => $this->input->post('fname'),
 						'LastName' => $this->input->post('lname'),
 						'MiddleName' => $this->input->post('mname'),
-						'Birthdate' => $this->input->post('datebirth'),
+						'BirthDate' => date_format(date_create($this->input->post('datebirth')),'Y-m-d'),
 						'Gender' => $this->input->post('gender'),
 						'HomeAddressContact' => $this->input->post('phonenumber'),
 						'HomeAddress1' => $this->input->post('address'),
@@ -169,7 +169,7 @@ $page_vars=array();
 					'ClientID' => $id
 				]);
 				if ($update) {
-				message('success', 'Succesfully update c');
+				message('success', 'Succesfully update ');
 				redirect('client/update/'.$id);
 			}else{
 				message('danger', 'failed to update.');
