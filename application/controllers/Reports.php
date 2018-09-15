@@ -104,11 +104,11 @@ class Reports extends MY_Controller {
             
             $arrayToSend[] = [
                 'mobileNumber' => $loan->HomeAddressContact,
-                'textSms' => $loan->LastName.', '.$loan->FirstName.'. You have been penalize on your '.$loanProd->loanProduct_name.' loan with the amount of '.round((($balance * 3.75) / 100),2).' cause of unpaid due...'
+                'textSms' => $loan->LastName.', '.$loan->FirstName.'. You have been penalize on your '.$loan->loanProduct_name.' loan with the amount of Php'.round((($balance * 3.75) / 100),2).' cause of unpaid due...'
             ];
             $arrayToSend[] = [
                 'mobileNumber' => $loan->HomeAddressContact,
-                'textSms' => 'Your currently total payment is now Php'+ round($balance + (($balance * 3.75) / 100),2).' that have interest rate of 3.75% and will be due on '.$date->format('Y-m-d H:i:s').'.'
+                'textSms' => 'Your currently total payment is now Php'. round($balance + (($balance * 3.75) / 100),2).' that have interest rate of 3.75% and will be due on '.$date->format('Y-m-d').'.'
             ];
             $this->session->set_flashdata('smsDataFlash', $arrayToSend);
 
