@@ -132,7 +132,7 @@ class Reports extends MY_Controller {
        $arrayToSend[] = [
         'mobileNumber' => $loan->HomeAddressContact,
         'name' => $loan->LastName.', '.$loan->FirstName,
-        'textSms' => $loan->LastName.', '.$loan->FirstName.'. You are warn to pay '.$loan->loanProduct_name.' loan account with the balance amount of Php'.number_format(round($paymentsBalance,4),2).' before '.$loan->date_cutoff.' due date to avoid penalty.'
+        'textSms' => $loan->LastName.', '.$loan->FirstName.'. You are warn to pay '.$loan->loanProduct_name.' loan account with the balance amount of Php'.number_format(round($paymentsBalance,4),2).' before '. date_format(date_create($loan->date_cutoff),'m/d/Y').' due date to avoid penalty.'
     ];
   
     echo json_encode(array('data' => array('toSendData' => $arrayToSend),'response' => 1));
