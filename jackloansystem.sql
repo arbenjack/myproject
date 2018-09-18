@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2018 at 07:35 PM
+-- Generation Time: Sep 18, 2018 at 05:49 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -92,10 +92,6 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 
 CREATE TABLE `client` (
   `ClientID` bigint(20) NOT NULL,
-  `GroupCode` bigint(20) DEFAULT '0',
-  `ClientCode` bigint(20) DEFAULT '0',
-  `Since` datetime DEFAULT NULL,
-  `SinceGroup` datetime DEFAULT NULL,
   `ClientStatus` int(11) DEFAULT '1',
   `FirstName` varchar(250) NOT NULL,
   `MiddleName` varchar(250) NOT NULL,
@@ -106,57 +102,27 @@ CREATE TABLE `client` (
   `MaritalStatus` varchar(10) DEFAULT '0',
   `Citizenship` int(11) DEFAULT '0',
   `HomeAddress1` longtext,
-  `HomeAddress2` longtext,
   `HomeAddressContact` longtext,
-  `HomeAddressSince` datetime DEFAULT NULL,
-  `cummulativeLoanNumber` int(11) DEFAULT '0',
-  `cummulativeLoanAmount` decimal(19,4) DEFAULT '0.0000',
-  `PrecintNo` bigint(20) DEFAULT NULL,
-  `c1` int(11) DEFAULT '0',
-  `c2` int(11) DEFAULT '0',
-  `c3` int(11) DEFAULT '0',
-  `c4` int(11) DEFAULT '0',
-  `r1` longtext,
-  `r2` longtext,
-  `r3` int(11) DEFAULT NULL,
   `ModifyBy` int(11) DEFAULT '0',
-  `ModifyDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `ModifyStamp` binary(8) DEFAULT NULL,
-  `r4` longtext,
-  `r5` longtext,
-  `r6` longtext,
-  `c5` int(11) DEFAULT '0',
-  `c6` int(11) DEFAULT '0',
-  `c7` int(11) DEFAULT '0',
   `PhotoPath` longtext,
-  `SignPath` longtext,
-  `TinNo` longtext,
-  `NickName` longtext,
-  `House` int(11) DEFAULT NULL,
-  `Education` int(11) DEFAULT NULL,
-  `Religion` int(11) DEFAULT NULL,
-  `YearsStayed` int(3) DEFAULT NULL,
-  `PlaceOfBirth` longtext,
-  `DateEstablished` datetime DEFAULT NULL,
-  `YearExperience` bigint(20) DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `PlaceOfBirth` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`ClientID`, `GroupCode`, `ClientCode`, `Since`, `SinceGroup`, `ClientStatus`, `FirstName`, `MiddleName`, `LastName`, `MaidenName`, `BirthDate`, `Gender`, `MaritalStatus`, `Citizenship`, `HomeAddress1`, `HomeAddress2`, `HomeAddressContact`, `HomeAddressSince`, `cummulativeLoanNumber`, `cummulativeLoanAmount`, `PrecintNo`, `c1`, `c2`, `c3`, `c4`, `r1`, `r2`, `r3`, `ModifyBy`, `ModifyDate`, `ModifyStamp`, `r4`, `r5`, `r6`, `c5`, `c6`, `c7`, `PhotoPath`, `SignPath`, `TinNo`, `NickName`, `House`, `Education`, `Religion`, `YearsStayed`, `PlaceOfBirth`, `DateEstablished`, `YearExperience`, `deleted_at`) VALUES
-(1, 1001001001, 4, NULL, NULL, 1, 'KAREN', 'LATE', 'DIAZ', 'X', '0000-00-00 00:00:00', 'F', 'single', 0, 'BRGY. JALANDONI, JARO, ILOILO CITY', NULL, '09386393750', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2017-12-17 13:26:40', NULL, NULL, NULL, NULL, 0, 0, 0, 'uploads/Fs2RSfY3eA5YiYyu8D4xaQ2geJHZ9BsByip530rH.png', NULL, NULL, NULL, NULL, 0, 0, 1982, NULL, NULL, NULL, NULL),
-(2, 1001001001, 2, NULL, NULL, 1, 'KEN', 'YEN', 'PADILLA', 'Y', '1983-12-17 00:00:00', 'M', 'single', 0, 'LAPAZ', NULL, '091646457898', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2017-12-17 13:49:57', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1964, 'ILOILO', NULL, NULL, NULL),
-(3, 1001001001, 3, NULL, NULL, 1, 'PIOLO', 'GARCIA', 'PASCUAL', 'G', '1961-04-21 00:00:00', 'M', NULL, 0, 'BACOLOD', NULL, '09168472213231', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2017-12-17 13:51:52', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1950, 'AKLAN', NULL, NULL, NULL),
-(4, 1001001001, 2154100, NULL, NULL, 1, 'CHARRY MAE', 'ANTAS', 'RODRIGUEZ', 'RODRIGUEZ', '1988-02-13 00:00:00', 'F', 'single', 0, 'Zone 3 Tacas Jaro Iloilo City', NULL, '+639205541121', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2018-02-13 03:14:12', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 10, NULL, NULL, NULL, NULL),
-(5, 1001001001, 231231, NULL, NULL, 1, 'Mark', 'Rael', 'Dingdong', NULL, '1977-06-07 00:00:00', 'M', 'single', 0, 'BACOLOD City', NULL, '12323123', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2018-06-07 02:27:10', NULL, NULL, NULL, NULL, 0, 0, 0, 'uploads/eyJpdiI6IkJtSEVBcTBHNHpJcW1FMnFcL2h6TlwvZz09Iiwidm.png', 'uploads/5BprslIlxpbC7FPE4mskLakx6K8SWuUlqLtYLwYy.png', NULL, NULL, NULL, 0, 0, 7, 'asd', NULL, NULL, NULL),
-(6, 1001001001, 0, NULL, NULL, 1, 'JOHN', 'X', 'SMITH', 'X', '1980-05-07 00:00:00', 'M', 'single', 0, 'BACOLOD CITY', 'BACOLOD CITY', '034 432323232111', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2018-06-07 07:05:22', NULL, NULL, NULL, NULL, 0, 0, 0, 'uploads/eyJpdiI6ImpsVGFUbDhDMTkxODV1S1wvXC9JakVqZz09Iiwidm.png', NULL, NULL, NULL, NULL, NULL, NULL, 1, 'TALISAY S', NULL, NULL, NULL),
-(7, 1001001001, 23444, NULL, NULL, 1, 'BOYCE', 'S', 'AVENUE', 'A', '0000-00-00 00:00:00', 'M', 'married', 0, 'BACOLOD CITY', 'BACOLOD CITY', '09386393750', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2018-06-07 11:03:30', NULL, NULL, '1231', NULL, 0, 0, 0, 'uploads/w96INN4NERKzZYQxnpSBdUfgmuhoVNaSBixppKOl.jpeg', NULL, NULL, NULL, NULL, 0, 0, 20, 'TALISAY', NULL, NULL, NULL),
-(8, 1001001001, 12162, NULL, NULL, 1, 'JUSTIN', 'CARROT', 'LUMBOK', NULL, '1977-06-14 00:00:00', 'M', 'single', 0, 'Address 123', NULL, '123123', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2018-06-14 05:36:53', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Barilas Camotes Island, Illigan City', NULL, NULL, NULL),
-(9, 1001001001, 9313576, NULL, NULL, 1, 'JOHN', 'X', 'SMITH', NULL, '1984-06-02 00:00:00', 'M', 'married', 0, '32432 BRGY. Tuburan Sulbod, ZARRAGA, ILOILO', ' BRGY. , , ', NULL, NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2018-07-02 04:17:42', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, 'ASDSADASD', NULL, NULL, NULL),
-(13, 0, 0, NULL, NULL, 1, 'qweqwe', 'qwewqewqe', 'wqewqe', NULL, '0000-00-00 00:00:00', '', '0', 0, '9193562183', NULL, 'ubayqwewqe qwewe ', NULL, 0, '0.0000', NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, '2018-08-18 09:03:15', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `client` (`ClientID`, `ClientStatus`, `FirstName`, `MiddleName`, `LastName`, `MaidenName`, `BirthDate`, `Gender`, `MaritalStatus`, `Citizenship`, `HomeAddress1`, `HomeAddressContact`, `ModifyBy`, `PhotoPath`, `PlaceOfBirth`) VALUES
+(1, 1, 'KAREN', 'LATE', 'DIAZ', 'X', '1901-11-20 00:00:00', 'F', 'single', 0, 'BRGY. JALANDONI, JARO, ILOILO CITY', '09386393750', 0, 'uploads/Fs2RSfY3eA5YiYyu8D4xaQ2geJHZ9BsByip530rH.png', NULL),
+(2, 1, 'KEN', 'YEN', 'PADILLA', 'Y', '1983-12-17 00:00:00', 'M', 'single', 0, 'LAPAZ', '091646457898', 0, NULL, 'ILOILO'),
+(3, 1, 'PIOLO', 'GARCIA', 'PASCUAL', 'G', '1961-04-21 00:00:00', 'M', NULL, 0, 'BACOLOD', '09168472213231', 0, NULL, 'AKLAN'),
+(4, 1, 'CHARRY MAE', 'ANTAS', 'RODRIGUEZ', 'RODRIGUEZ', '1988-02-13 00:00:00', 'F', 'single', 0, 'Zone 3 Tacas Jaro Iloilo City', '+639205541121', 0, NULL, NULL),
+(5, 1, 'Mark', 'Rael', 'Dingdong', NULL, '1977-06-07 00:00:00', 'M', 'single', 0, 'BACOLOD City', '12323123', 0, 'uploads/eyJpdiI6IkJtSEVBcTBHNHpJcW1FMnFcL2h6TlwvZz09Iiwidm.png', 'asd'),
+(6, 1, 'JOHN', 'X', 'SMITH', 'X', '1980-05-07 00:00:00', 'M', 'single', 0, 'BACOLOD CITY', '034 432323232111', 0, 'uploads/eyJpdiI6ImpsVGFUbDhDMTkxODV1S1wvXC9JakVqZz09Iiwidm.png', 'TALISAY S'),
+(7, 1, 'BOYCE', 'S', 'AVENUE', 'A', '1901-12-04 00:00:00', 'M', 'married', 0, 'BACOLOD CITY', '09386393750', 0, 'uploads/w96INN4NERKzZYQxnpSBdUfgmuhoVNaSBixppKOl.jpeg', 'TALISAY'),
+(8, 1, 'JUSTIN', 'CARROT', 'LUMBOK', NULL, '1977-06-14 00:00:00', 'M', 'single', 0, 'Address 123', '123123', 0, NULL, 'Barilas Camotes Island, Illigan City'),
+(9, 1, 'JOHN', 'X', 'SMITH', NULL, '1984-06-02 00:00:00', 'M', 'married', 0, '32432 BRGY. Tuburan Sulbod, ZARRAGA, ILOILO', NULL, 0, NULL, 'ASDSADASD'),
+(13, 1, 'qweqwe', 'qwewqewqe', 'wqewqe', NULL, '0000-00-00 00:00:00', '', '0', 0, '9193562183', 'ubayqwewqe qwewe ', 0, NULL, NULL);
 
 --
 -- Triggers `client`
@@ -192,8 +158,7 @@ CREATE TABLE `client_savings` (
 --
 
 INSERT INTO `client_savings` (`savings_id`, `client_id`, `loan_acountID`, `loan_productID`, `cbuOnly`, `dateCreated`, `amount_dr`, `amount_cr`) VALUES
-(4, 7, 31770030, 0, 0, '2018-09-08 23:01:19', '0.0000', '300.0000'),
-(5, 1, 32960029, 0, 0, '2018-09-08 23:01:19', '0.0000', '300.0000');
+(6, 7, 31770030, 0, 0, '2018-09-18 22:28:15', '0.0000', '300.0000');
 
 -- --------------------------------------------------------
 
@@ -242,8 +207,7 @@ CREATE TABLE `loan_account` (
 --
 
 INSERT INTO `loan_account` (`loan_accountID`, `loanTypeID`, `client_id`, `loanAmount`, `termNumber`, `isPaid`, `intRate`, `loanStatus`, `dateCreated`, `isRelease`, `dateRelease`, `date_cutoff`) VALUES
-(31770030, 2, 7, '50000.000000', 3, 0, '3.7500', 'release', '2018-09-08 23:00:31', 1, '2018-09-08 17:01:19', '2018-12-08 17:01:19'),
-(32960029, 1, 1, '10000.000000', 3, 0, '3.7500', 'release', '2018-09-08 22:57:38', 1, '2018-09-08 17:01:19', '2018-12-08 17:01:19');
+(31770030, 2, 7, '50000.000000', 3, 0, '3.7500', 'release', '2018-09-08 23:00:31', 1, '2018-09-18 16:28:15', '2018-09-23 16:28:15');
 
 --
 -- Triggers `loan_account`
@@ -257,8 +221,10 @@ DECLARE P1 VARCHAR(50);
 IF (NEW.isRelease = 1 AND OLD.isPaid = 0 AND OLD.loanStatus = 'applied') THEN
    INSERT INTO client_savings(client_id,loan_acountID,amount_cr) 		     VALUES(OLD.client_id,OLD.loan_accountID,P1);
    
-   INSERT INTO loan_payment(client_id,loanAcct_id,loanTypeID,amount_dr,amount_cr,isRelease) VALUES(OLD.client_id,OLD.loan_accountID,OLD.loanTypeID,(OLD.loanAmount + ((OLD.intRate * OLD.loanAmount) / 100)),0,1);
+   INSERT INTO loan_payment(client_id,loanAcct_id,loanTypeID,amount_dr,amount_cr,isRelease) VALUES(OLD.client_id,OLD.loan_accountID,OLD.loanTypeID,OLD.loanAmount,0,1);
    
+    INSERT INTO loan_payment(client_id,loanAcct_id,loanTypeID,amount_dr,amount_cr,isRelease,isInterest) VALUES(OLD.client_id,OLD.loan_accountID,OLD.loanTypeID,((OLD.intRate * OLD.loanAmount) / 100),0,0,1);
+      
 END IF;
 
 
@@ -297,10 +263,9 @@ CREATE TABLE `loan_payment` (
 --
 
 INSERT INTO `loan_payment` (`loan_paymentID`, `client_id`, `loanAcct_id`, `loanTypeID`, `isRelease`, `isPenalty`, `isInterest`, `amount_dr`, `amount_cr`, `dateTransaction`) VALUES
-(6, 7, 31770030, 2, 1, 0, 0, '51875.000000', '0.0000', '2018-09-08 23:01:19'),
-(7, 1, 32960029, 1, 1, 0, 0, '10375.000000', '0.0000', '2018-09-08 23:01:19'),
-(8, 7, 31770030, 2, 0, 0, 0, '0.000000', '10000.0000', '2018-09-08 23:04:10'),
-(9, 1, 32960029, 1, 0, 0, 0, '0.000000', '5000.0000', '2018-09-08 23:04:10');
+(1, 7, 31770030, 2, 1, 0, 0, '50000.000000', '0.0000', '2018-09-18 22:28:15'),
+(2, 7, 31770030, 2, 0, 0, 1, '1875.000000', '0.0000', '2018-09-18 22:28:15'),
+(3, 7, 31770030, 2, 0, 0, 0, '0.000000', '20000.0000', '2018-09-18 22:29:57');
 
 --
 -- Triggers `loan_payment`
@@ -492,7 +457,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT for table `client_savings`
 --
 ALTER TABLE `client_savings`
-  MODIFY `savings_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `savings_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `loanaccount_seq`
@@ -504,7 +469,7 @@ ALTER TABLE `loanaccount_seq`
 -- AUTO_INCREMENT for table `loan_payment`
 --
 ALTER TABLE `loan_payment`
-  MODIFY `loan_paymentID` bigint(44) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `loan_paymentID` bigint(44) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `loan_product`
