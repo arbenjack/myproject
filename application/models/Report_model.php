@@ -74,4 +74,25 @@ class Report_model extends CI_Model {
        return 0;
         }
 
+   function getPayments($array = array()){
+        $query = $this->db->select('cl.*, laonp.*, loan_payment.*, loanAc.intRate, loanAc.loanAmount')
+            ->where([
+                'loan_payment.dateTransaction >=' => $array['start'].' 00:00:01',
+                'loan_payment.dateTransaction <=' => $array['end'].' 23:59:59',
+                'loan_payment.isRelease' => 0,
+                //'loan_payment.isPenalty' => 0,
+                //'loan_payment.isInterest' => 0
+            ])
+            ->join('client as cl','cl.ClientID = loan_payment.client_id','LEFT')
+            ->join('loan_product as laonp','laonp.loan_productID = loan_payment.loanTypeID','LEFT')
+            ->join('loan_account as loanAc','loanAc.loan_accountID = loan_payment.loanAcct_id','LEFT')
+            ->get('loan_payment');
+
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+        return array();
+   }
+
+
 }

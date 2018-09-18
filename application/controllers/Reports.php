@@ -13,13 +13,11 @@ class Reports extends MY_Controller {
         $this->load->model('Report_model')
             ->model('Loan_model');
     }
-
     function pastdue(){
         $FosmsFlash = $this->session->flashdata('smsDataFlash');
 		if(!empty($FosmsFlash)){
 			$this->loadJS('custom/sensSMS.js',['data' => json_encode(array('toSendData' => $FosmsFlash))]);
         }else{}
-            
         $this->loadJS('custom/reportpass.js');
         $page_vars = array();
 
@@ -55,17 +53,13 @@ class Reports extends MY_Controller {
                 );
             }
             $page_vars['dueList'] = $listDues;
-        }else{
-
-        }
-
+        }else{ }
         $this->load->view('template/adminlte',array_merge([
 			'page_view' => 'pages/reports/pastdue',
 			'page_tittle' => 'List of Past Dues',
 			'page_webTittle' => 'List of Past Dues',
 		],$page_vars));
     }
-
 
     function setPenalty($loadid = 0){
         $page_vars = array();
@@ -116,8 +110,6 @@ class Reports extends MY_Controller {
               message('success', 'Succesfully Applied penalty of '.strtoupper($loan->LastName.' '.$loan->FirstName));
               redirect('reports/pastdue');
             }
-            //message('success', 'Succesfully Applied penalty of ');
-            //redirect('reports/pastdue');
         }else{
            //message('danger', 'failed to add Client.');
             //redirect('reports/setPenalty/'.$loadid);
@@ -134,32 +126,57 @@ class Reports extends MY_Controller {
         'name' => $loan->LastName.', '.$loan->FirstName,
         'textSms' => $loan->LastName.', '.$loan->FirstName.'. You are warn to pay '.$loan->loanProduct_name.' loan account with the balance amount of Php'.number_format(round($paymentsBalance,4),2).' before '. date_format(date_create($loan->date_cutoff),'m/d/Y').' due date to avoid penalty.'
     ];
-  
     echo json_encode(array('data' => array('toSendData' => $arrayToSend),'response' => 1));
+    }
+
+    function paymentreports(){
+        $page_vars = array();
+        $page_vars['totalPayment'] = 0;
+        $page_vars['totalIncome'] = 0;
+        $this->form_validation->set_rules('startdate','Start Date','required')
+                    ->set_rules('enddate','End Date','required');
+        if($this->form_validation->run()){
+            //print_r(date_format(date_create($this->input->post('startdate')),'Y-m-d'));die;
+            $listPayments = $this->Report_model->getPayments(array(
+                'start' => date_format(date_create($this->input->post('startdate')),'Y-m-d'),
+                'end' => date_format(date_create($this->input->post('enddate')),'Y-m-d')
+                ));
+            
+            if(!empty($listPayments)){
+                $intPercentAmount = 0;
+                foreach($listPayments as $lp){
+                    $page_vars['totalPayment'] =+ $lp->amount_cr;
+                    
+                    if($lp->isPenalty == 1 || $lp->isInterest == 1){
+                        $intPercentAmount = (($lp->amount_dr * $lp->intRate) /100);
+                    }
+                    
+                    $page_vars['totalIncome'] =+ (($lp->amount_cr * $lp->intRate) /100) - $intPercentAmount;
+                }
+            }
+
+           $page_vars['paymentList'] = $listPayments;
+        }else{}
+           // print_r( $page_vars['$paymentList']);die;
+        $this->load->view('template/adminlte',array_merge([
+			'page_view' => 'pages/reports/payment',
+			'page_tittle' => 'List of Payments',
+			'page_webTittle' => 'List of Payments',
+		],$page_vars));
     }
 
     function getWeekStartEnd(){
         $monday = strtotime("last monday");
-
         $monday = date('w', $monday)==date('w') ? $monday+7*86400 : $monday;
-        
         $sunday = strtotime(date("Y-m-d",$monday)." +6 days");
-        
         $this_week_sd = date("Y-m-d",$monday);
-        
         $this_week_ed = date("Y-m-d",$sunday);
-        
-       // echo "Current week range from $this_week_sd to $this_week_ed ";
      return  array('start' => $this_week_sd, 'end' => $this_week_ed);
     }
-
     function getMonthStartEnd(){
         $now_date = date('Y-m-d');  
-
-        // echo date("Y-m-d", strtotime("saturday -1 week"));die;
          $start = date("Y-m-01", strtotime($now_date));
          $end = date("Y-m-".date("t", strtotime($now_date))."", strtotime($now_date));
-
         return  array('start' => $start, 'end' => $end);
     }
 

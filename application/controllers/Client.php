@@ -205,7 +205,8 @@ $page_vars=array();
 			$object->isPenalty = 0;
 			$object->isInterest = 0;
 			$page_vars['transList'][] = $object;
-
+			
+			/*
 			$object = new stdClass();
 			$object->amount_dr = (($loanInfo->loanAmount * $loanInfo->intRate) /100);
 			$object->amount_cr = 0;
@@ -214,6 +215,7 @@ $page_vars=array();
 			$object->isPenalty = 0;
 			$object->isInterest = 1;
 			$page_vars['transList'][] = $object;
+			*/
 		}
 			/*
 			$page_vars['transList'][] = new Object([
