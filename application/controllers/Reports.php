@@ -152,7 +152,7 @@ class Reports extends MY_Controller {
                     if($lp->isPenalty == 0 || $lp->isInterest == 0 || $lp->isRelease == 0){
                         $page_vars['totalIncome'] += (($lp->amount_cr * $lp->intRate) /100) - $percent;
                     }
-                    if($lp->isPenalty == 0){
+                    if($lp->isPenalty == 1){
                         $page_vars['totalIncome'] = $page_vars['totalIncome'] + $lp->amount_dr;
                     }
                 
