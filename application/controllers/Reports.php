@@ -145,12 +145,12 @@ class Reports extends MY_Controller {
             if(!empty($listPayments)){
                 $intPercentAmount = 0;
                 foreach($listPayments as $lp){
-                    $page_vars['totalPayment'] =+ $lp->amount_cr;
+                    $page_vars['totalPayment'] += $lp->amount_cr;
 
                     $intPercentAmount = (($lp->loanAmount * $lp->intRate) /100);
                     $percent =  ((($lp->loanAmount * $lp->intRate) /100) * $lp->intRate) /100;
                     if($lp->isPenalty == 0 || $lp->isInterest == 0 || $lp->isRelease == 0){
-                        $page_vars['totalIncome'] =+ (($lp->amount_cr * $lp->intRate) /100) - $percent;
+                        $page_vars['totalIncome'] += (($lp->amount_cr * $lp->intRate) /100) - $percent;
                     }
                     if($lp->isPenalty == 0){
                         $page_vars['totalIncome'] = $page_vars['totalIncome'] + $lp->amount_dr;
