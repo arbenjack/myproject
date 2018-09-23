@@ -169,6 +169,35 @@ class Reports extends MY_Controller {
 		],$page_vars));
     }
 
+
+    function cbusavings(){
+        $page_vars = array();
+        $page_vars['totalSavings'] = 0;
+        $page_vars['totalWithdraw'] = 0;
+         $this->form_validation->set_rules('startdate','Start Date','required')
+                ->set_rules('enddate','End Date','required');
+        if($this->form_validation->run()){
+        $listCbu = $this->Report_model->getCbuList(array(
+            'start' => date_format(date_create($this->input->post('startdate')),'Y-m-d'),
+            'end' => date_format(date_create($this->input->post('enddate')),'Y-m-d')
+            ));
+
+        if(!empty($listCbu)){
+            foreach($listCbu as $list){
+                $page_vars['totalSavings'] += $list->amount_cr;
+                $page_vars['totalWithdraw'] += $list->amount_dr;
+            }
+        }
+       // print_r($listCbu);die;
+        $page_vars['listCbu'] = $listCbu;
+        }
+        $this->load->view('template/adminlte',array_merge([
+			'page_view' => 'pages/reports/cbuSavings',
+			'page_tittle' => 'List of CBU Savings',
+			'page_webTittle' => 'List of CBU Savings',
+		],$page_vars));
+    }
+
     function getWeekStartEnd(){
         $monday = strtotime("last monday");
         $monday = date('w', $monday)==date('w') ? $monday+7*86400 : $monday;

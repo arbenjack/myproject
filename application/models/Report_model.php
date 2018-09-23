@@ -94,5 +94,22 @@ class Report_model extends CI_Model {
         return array();
    }
 
+   function getCbuList($array = array()){
+       $query = $this->db->select('cl.*, client_savings.*, loanAc.loan_accountID, laonp.loanProduct_name')
+       ->where([
+        'client_savings.dateCreated >=' => $array['start'].' 00:00:01',
+        'client_savings.dateCreated <=' => $array['end'].' 23:59:59',
+        ])
+        ->join('client as cl','cl.ClientID = client_savings.client_id','LEFT')
+        ->join('loan_account as loanAc','loanAc.loan_accountID = client_savings.loan_acountID','LEFT')
+        ->join('loan_product as laonp','laonp.loan_productID = loanAc.loanTypeID','LEFT')
+        ->get('client_savings');
+
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+        return array();
+
+   }
 
 }
