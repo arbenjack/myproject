@@ -46,7 +46,7 @@ class Client extends MY_Controller {
 				'FirstName' => $this->input->post('fname'),
 				'LastName' => $this->input->post('lname'),
 				'MiddleName' => $this->input->post('mname'),
-				'BirthDate' => $this->input->post('datebirth'),
+				'BirthDate' => date_format(date_create($this->input->post('datebirth')),'Y-m-d'),
 				'Gender' => $this->input->post('gender'),
 				'HomeAddress1' => $this->input->post('address'),
 				'HomeAddressContact' => $this->input->post('phonenumber')
