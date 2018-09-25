@@ -38,8 +38,9 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" name="datebirth" value="<?= set_value('datebirth') ?>" class="form-control pull-left datepicker">
+                  <input type="text" name="datebirth" value="<?= set_value('datebirth') ?>" 'm-d-Y'  class="form-control pull-right datepicker">
                 </div>
+
                 <!-- /.input group -->
               </div>
               <?=formErrorh('danger',form_error('datebirth'))?>
